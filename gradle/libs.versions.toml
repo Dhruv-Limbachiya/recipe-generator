@@ -1,0 +1,91 @@
+[versions]
+agp = "8.3.2"
+kotlin = "1.9.0"
+coreKtx = "1.13.1"
+junit = "4.13.2"
+junitVersion = "1.1.5"
+espressoCore = "3.5.1"
+lifecycleRuntimeKtx = "2.8.1"
+activityCompose = "1.9.0"
+composeBom = "2023.08.00"
+
+coreTesting = "2.2.0"
+firebaseBom = "33.1.0"
+hiltAndroidCompiler = "2.50"
+daggerHiltVersion  = "2.50"
+lottieCompose = "6.4.0"
+navigationCompose = "2.7.7"
+roomVersion  = "2.6.1"
+kotlinxCoroutinesAndroidVersion  = "1.7.3"
+coroutineLifecycleVersion = "2.8.1"
+coreKtxVersion = "1.5.0"
+truth = "1.3.0"
+turbineVersion = "1.0.0"
+hiltNavigationCompose = "1.2.0"
+ktLintVersion = "12.1.1"
+
+# plugin versions
+googleServiceVersion = "4.4.2"
+kspVersion = "1.9.0-1.0.12"
+kotlinJvmVersion = "1.9.0"
+crashlytics = "3.0.1"
+
+[libraries]
+androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
+junit = { group = "junit", name = "junit", version.ref = "junit" }
+androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
+androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }
+androidx-lifecycle-runtime-ktx = { group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version.ref = "lifecycleRuntimeKtx" }
+androidx-activity-compose = { group = "androidx.activity", name = "activity-compose", version.ref = "activityCompose" }
+androidx-compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "composeBom" }
+androidx-ui = { group = "androidx.compose.ui", name = "ui" }
+androidx-ui-graphics = { group = "androidx.compose.ui", name = "ui-graphics" }
+androidx-ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling" }
+androidx-ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-tooling-preview" }
+androidx-ui-test-manifest = { group = "androidx.compose.ui", name = "ui-test-manifest" }
+androidx-ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit4" }
+androidx-material3 = { group = "androidx.compose.material3", name = "material3" }
+
+# newly added dependencies
+
+# navigation
+androidx-navigation-compose = { module = "androidx.navigation:navigation-compose", version.ref = "navigationCompose" }
+androidx-navigation-testing = { module = "androidx.navigation:navigation-testing", version.ref = "navigationCompose" }
+
+# firebase
+firebase-crashlytics = { module = "com.google.firebase:firebase-crashlytics" }
+firebase-analytics = { module = "com.google.firebase:firebase-analytics" }
+firebase-bom = { module = "com.google.firebase:firebase-bom", version.ref = "firebaseBom" }
+
+# hilt
+hilt-android-compiler = { module = "com.google.dagger:hilt-android-compiler", version.ref = "hiltAndroidCompiler" }
+hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "daggerHiltVersion" }
+hilt-android-testing = { module = "com.google.dagger:hilt-android-testing", version.ref = "daggerHiltVersion" }
+hilt-navigation-compose = {module = "androidx.hilt:hilt-navigation-compose", version.ref = "hiltNavigationCompose"}
+
+# room
+room-android = {module = "androidx.room:room-runtime", version.ref = "roomVersion"}
+room-compiler = {module = "androidx.room:room-compiler", version.ref = "roomVersion"}
+room-ktx = {module = "androidx.room:room-ktx", version.ref = "roomVersion"}
+room-testing = {module = "androidx.room:room-testing", version.ref = "roomVersion"}
+
+# core
+kotlinx-coroutines-android = {module = "org.jetbrains.kotlinx:kotlinx-coroutines-android" ,version.ref = "kotlinxCoroutinesAndroidVersion"}
+lifecycle-viewmodel = {module = "androidx.lifecycle:lifecycle-viewmodel-ktx", version.ref= "coroutineLifecycleVersion" }
+lifecycle-runtime = {module = "androidx.lifecycle:lifecycle-runtime-ktx", version.ref= "coroutineLifecycleVersion" }
+core-ktx = { group = "androidx.test", name = "core-ktx", version.ref = "coreKtxVersion" }
+core-testing = { module = "androidx.arch.core:core-testing", version.ref = "coreTesting" }
+
+# test
+truth = { module = "com.google.truth:truth", version.ref = "truth" }
+turbine = { module = "app.cash.turbine:turbine", version.ref = "turbineVersion" }
+
+[plugins]
+androidApplication = { id = "com.android.application", version.ref = "agp" }
+jetbrainsKotlinAndroid = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+kspDevTools = {id = "com.google.devtools.ksp", version.ref = "kspVersion"}
+daggerHiltAndroid = {id = "com.google.dagger.hilt.android", version.ref = "daggerHiltVersion"}
+ktLint = {id = "org.jlleitschuh.gradle.ktlint", version.ref = "ktLintVersion"}
+googleServices = { id = "com.google.gms.google-services", version.ref = "googleServiceVersion" }
+kotlinJVM = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlinJvmVersion"}
+crashlytics = { id = "com.google.firebase.crashlytics", version.ref = "crashlytics"}
