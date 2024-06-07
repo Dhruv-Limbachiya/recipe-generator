@@ -129,4 +129,10 @@ dependencies {
     implementation(platform(libs.firebase.bom))
     implementation(libs.firebase.analytics)
     implementation(libs.firebase.crashlytics)
+
+    // gson
+    implementation(libs.gson)
+
+    // moshi
+    implementation(libs.moshi)
 }
