@@ -8,10 +8,11 @@ import com.dhruvv.recipegenerator.data.api.model.Recipe
 import com.dhruvv.recipegenerator.data.db.converters.RecipeConverter
 
 @Entity(tableName = "recipe")
+@TypeConverters(RecipeConverter::class)
 data class RecipeEntity(
     @PrimaryKey
     val id: Int,
-    @TypeConverters(value = [RecipeConverter::class])
+//    @TypeConverters(value = [RecipeConverter::class])
     val recipe: Recipe,
     @ColumnInfo(name = "generate_at")
     val generatedAt: String
