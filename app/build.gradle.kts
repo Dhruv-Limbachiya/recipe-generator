@@ -1,3 +1,4 @@
+import org.jlleitschuh.gradle.ktlint.reporter.ReporterType
 import java.util.Properties
 
 plugins {
@@ -38,7 +39,7 @@ android {
             isMinifyEnabled = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
+                "proguard-rules.pro",
             )
         }
     }
@@ -60,9 +61,24 @@ android {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
         }
     }
+
+    ktlint {
+        android = true
+        ignoreFailures = false
+        reporters {
+            reporter(ReporterType.PLAIN)
+            reporter(ReporterType.SARIF)
+            reporter(ReporterType.CHECKSTYLE)
+        }
+        outputToConsole.set(true)
+        outputColorName.set("YELLOW")
+    }
 }
 
-fun Project.getLocalProperty(key: String, file: String = "local.properties"): String {
+fun Project.getLocalProperty(
+    key: String,
+    file: String = "local.properties",
+): String {
     val properties = Properties()
     val localPropertiesFile = rootDir.resolve(file)
     if (localPropertiesFile.isFile) {
@@ -94,7 +110,7 @@ dependencies {
     testImplementation(libs.truth)
     androidTestImplementation(libs.truth)
 
-     // navigation
+    // navigation
     implementation(libs.hilt.android)
     implementation(libs.hilt.navigation.compose)
 

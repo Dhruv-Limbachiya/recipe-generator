@@ -8,7 +8,7 @@ data class Recipe(
     val name: String? = "",
     val tips: List<String> = mutableListOf(),
     val type: String? = "",
-    val variations: List<Variation> = mutableListOf()
+    val variations: List<Variation> = mutableListOf(),
 ) {
     companion object {
         val INVALID_RECIPE = Recipe()
