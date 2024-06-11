@@ -151,4 +151,7 @@ dependencies {
 
     // moshi
     implementation(libs.moshi)
+
+    // gemini gen ai
+    implementation(libs.gemini.generative.ai)
 }

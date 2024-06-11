@@ -4,7 +4,7 @@ import android.util.Log
 import androidx.room.ProvidedTypeConverter
 import androidx.room.TypeConverter
 import com.dhruvv.recipegenerator.common.parser.JsonParser
-import com.dhruvv.recipegenerator.data.api.model.Recipe
+import com.dhruvv.recipegenerator.data.api.model.ApiRecipe
 
 @ProvidedTypeConverter
 class RecipeConverter(
@@ -12,10 +12,10 @@ class RecipeConverter(
 ) {
     // Converts a Recipe object to its JSON string representation
     @TypeConverter
-    fun fromRecipeToJsonString(recipe: Recipe): String {
+    fun fromRecipeToJsonString(apiRecipe: ApiRecipe): String {
         try {
             // Use the JsonParser to convert the Recipe object to a JSON string
-            return jsonParser.toJson(recipe, Recipe::class.java).toString()
+            return jsonParser.toJson(apiRecipe, ApiRecipe::class.java).toString()
         } catch (e: Exception) {
             // Log any exceptions that occur during conversion
             Log.e(TAG, "fromRecipeToJsonString: $e")
@@ -26,16 +26,16 @@ class RecipeConverter(
 
     // Converts a JSON string representation of a Recipe back into a Recipe object
     @TypeConverter
-    fun fromJsonStringToRecipe(jsonString: String): Recipe {
+    fun fromJsonStringToRecipe(jsonString: String): ApiRecipe {
         try {
             // Use the JsonParser to convert the JSON string back to a Recipe object
-            return jsonParser.fromJson(jsonString, Recipe::class.java) ?: Recipe.INVALID_RECIPE
+            return jsonParser.fromJson(jsonString, ApiRecipe::class.java) ?: ApiRecipe.INVALID_Api_RECIPE
         } catch (e: Exception) {
             // Log any exceptions that occur during conversion
             Log.e(TAG, "fromJsonStringToRecipe: $e")
         }
         // Return an INVALID_RECIPE if conversion fails
-        return Recipe.INVALID_RECIPE
+        return ApiRecipe.INVALID_Api_RECIPE
     }
 
     companion object {

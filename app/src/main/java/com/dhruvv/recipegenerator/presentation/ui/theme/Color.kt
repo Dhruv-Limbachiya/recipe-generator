@@ -1,4 +1,4 @@
-package com.dhruvv.recipegenerator.ui.theme
+package com.dhruvv.recipegenerator.presentation.ui.theme
 
 import androidx.compose.ui.graphics.Color
 

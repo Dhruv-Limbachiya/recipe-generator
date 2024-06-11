@@ -16,11 +16,11 @@ interface RecipeDao {
 
     // Retrieves all recipes from the database as a Flow of a list of RecipeEntity objects.
     @Query("SELECT * FROM recipe")
-    fun getRecipes(): Flow<List<RecipeEntity>>
+    fun getRecipes(): List<RecipeEntity>
 
     // Retrieves a specific recipe from the database by its id.
     @Query("SELECT * FROM recipe WHERE id=:id")
-    suspend fun getRecipeById(id: String): RecipeEntity
+    suspend fun getRecipeById(id: Int): RecipeEntity?
 
     // Deletes a specific recipe from the database and returns the number of rows affected.
     @Delete

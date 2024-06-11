@@ -1,4 +1,4 @@
-package com.dhruvv.recipegenerator.ui.theme
+package com.dhruvv.recipegenerator.presentation.ui.theme
 
 import android.app.Activity
 import android.os.Build

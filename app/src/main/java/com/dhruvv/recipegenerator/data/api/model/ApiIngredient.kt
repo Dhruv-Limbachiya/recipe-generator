@@ -1,6 +1,6 @@
 package com.dhruvv.recipegenerator.data.api.model
 
-data class Ingredient(
+data class ApiIngredient(
     val image_url: String,
     val name: String,
     val preparation: String,

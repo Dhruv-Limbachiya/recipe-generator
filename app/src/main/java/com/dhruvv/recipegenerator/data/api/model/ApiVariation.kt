@@ -1,6 +1,6 @@
 package com.dhruvv.recipegenerator.data.api.model
 
-data class Variation(
+data class ApiVariation(
     val description: String,
     val name: String,
 )

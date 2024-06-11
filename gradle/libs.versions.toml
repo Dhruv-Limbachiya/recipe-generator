@@ -25,6 +25,7 @@ gsonVersion = "2.11.0"
 moshiVersion = "1.15.1"
 hiltNavigationCompose = "1.2.0"
 ktLintVersion = "12.1.1"
+geminiGenAIVersion = "0.7.0"
 
 # plugin versions
 googleServiceVersion = "4.4.2"
@@ -85,6 +86,10 @@ turbine = { module = "app.cash.turbine:turbine", version.ref = "turbineVersion" 
 # gson
 gson = { module = "com.google.code.gson:gson", version.ref = "gsonVersion" }
 moshi = { module = "com.squareup.moshi:moshi-kotlin", version.ref = "moshiVersion" }
+
+# gemin gen ai
+gemini-generative-ai = { module = "com.google.ai.client.generativeai:generativeai", version.ref = "geminiGenAIVersion" }
+
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
