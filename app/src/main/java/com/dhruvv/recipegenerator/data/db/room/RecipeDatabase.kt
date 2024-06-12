@@ -1,3 +1,5 @@
+package com.dhruvv.recipegenerator.data.db.room
+
 import androidx.room.Database
 import androidx.room.RoomDatabase
 import com.dhruvv.recipegenerator.data.db.dao.RecipeDao

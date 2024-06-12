@@ -9,6 +9,7 @@ plugins {
     alias(libs.plugins.ktLint)
     alias(libs.plugins.googleServices)
     alias(libs.plugins.crashlytics)
+    alias(libs.plugins.androidx.room)
 }
 
 android {
@@ -54,7 +55,7 @@ android {
         compose = true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.5.1"
+        kotlinCompilerExtensionVersion = "1.5.14"
     }
     packaging {
         resources {
@@ -72,6 +73,10 @@ android {
         }
         outputToConsole.set(true)
         outputColorName.set("YELLOW")
+    }
+
+    room {
+        schemaDirectory("$projectDir/schemas")
     }
 }
 

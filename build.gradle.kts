@@ -8,4 +8,5 @@ plugins {
     alias(libs.plugins.kotlinJVM)
     alias(libs.plugins.kspDevTools) apply false
     alias(libs.plugins.crashlytics) apply false
+    alias(libs.plugins.androidx.room) apply false
 }
