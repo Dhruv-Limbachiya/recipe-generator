@@ -2,8 +2,9 @@ package com.dhruvv.recipegenerator.common.parser
 
 import com.squareup.moshi.Moshi
 import java.lang.reflect.Type
+import javax.inject.Inject
 
-class MoshiParser(
+class MoshiParser  @Inject constructor(
     private val moshi: Moshi,
 ) : JsonParser {
     override fun <T> fromJson(
