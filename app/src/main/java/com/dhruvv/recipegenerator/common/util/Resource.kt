@@ -8,7 +8,7 @@ package com.dhruvv.recipegenerator.common.util
  */
 sealed class Resource<T>(
     val data: T? = null,
-    val message: String? = null
+    val message: String? = null,
 ) {
     /**
      * Represents a successful outcome.

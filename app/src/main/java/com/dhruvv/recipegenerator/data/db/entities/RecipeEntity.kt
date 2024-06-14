@@ -21,6 +21,6 @@ data class RecipeEntity(
     val generatedAt: String,
 )
 
-fun RecipeEntity.toRecipeUIModel() : Recipe {
+fun RecipeEntity.toRecipeUIModel(): Recipe {
     return Recipe(id, apiRecipe, generatedAt)
 }

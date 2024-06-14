@@ -6,5 +6,5 @@ package com.dhruvv.recipegenerator.domain.usecases
  * @property generateRecipe The use case responsible for generating recipes.
  */
 data class UseCase(
-    val generateRecipe: GenerateRecipe
+    val generateRecipe: GenerateRecipe,
 )

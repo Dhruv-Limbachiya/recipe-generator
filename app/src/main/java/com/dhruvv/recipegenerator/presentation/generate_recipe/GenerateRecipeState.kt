@@ -17,7 +17,7 @@ import com.dhruvv.recipegenerator.data.model.Recipe
 data class GenerateRecipeState(
     var isLoading: Boolean = false,
     var generatedRecipe: Recipe = Recipe.INVALID_RECIPE,
-    var isErrorMessage: String = ""
+    var isErrorMessage: String = "",
 ) {
     companion object {
         /**
@@ -27,4 +27,3 @@ data class GenerateRecipeState(
         val INVALID_GENERATE_RECIPE_STATE = GenerateRecipeState()
     }
 }
-

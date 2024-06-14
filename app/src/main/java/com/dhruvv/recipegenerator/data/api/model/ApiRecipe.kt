@@ -46,8 +46,8 @@ data class ApiRecipe(
  */
 fun ApiRecipe.toRecipeEntity(): RecipeEntity {
     return RecipeEntity(
-        id = 0, // Assuming the ID is assigned later by the database (e.g., auto-generated).
-        apiRecipe = this, // Store the original ApiRecipe object.
-        generatedAt = System.currentTimeMillis().toDate() // Capture the current timestamp and convert it to a Date object.
+        id = 0,
+        apiRecipe = this,
+        generatedAt = System.currentTimeMillis().toDate(),
     )
 }

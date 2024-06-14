@@ -18,9 +18,8 @@ import kotlinx.coroutines.flow.flow
  */
 class RecipeRepoImpl(
     private val recipeDao: RecipeDao,
-    private val recipeGenerator: RecipeGenerator
+    private val recipeGenerator: RecipeGenerator,
 ) : RecipeRepo {
-
     /**
      * Generates a recipe based on the provided prompt.
      *

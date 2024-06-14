@@ -18,9 +18,8 @@ import com.squareup.moshi.adapter
  * @param moshi An instance of Moshi used for JSON parsing.
  */
 class GeminiRecipeGenerator(
-    private val moshi: Moshi
+    private val moshi: Moshi,
 ) : RecipeGenerator {
-
     /**
      * Generates a recipe based on the provided prompt.
      *
@@ -30,29 +29,31 @@ class GeminiRecipeGenerator(
     @OptIn(ExperimentalStdlibApi::class)
     override suspend fun generateRecipe(prompt: String): ApiRecipe? {
         // Initialize the GenerativeModel with the appropriate parameters
-        val model = GenerativeModel(
-            MODEL,
-            // Retrieve API key as an environmental variable defined in a Build Configuration
-            // see https://github.com/google/secrets-gradle-plugin for further instructions
-            BuildConfig.GEMINI_API_KEY,
-            generationConfig = generationConfig {
-                temperature = 1f
-                topK = 64
-                topP = 0.95f
-                maxOutputTokens = 8192
-                responseMimeType = "application/json"
-            },
-        )
+        val model =
+            GenerativeModel(
+                MODEL,
+                // Retrieve API key as an environmental variable defined in a Build Configuration
+                // see https://github.com/google/secrets-gradle-plugin for further instructions
+                BuildConfig.GEMINI_API_KEY,
+                generationConfig =
+                    generationConfig {
+                        temperature = 1f
+                        topK = 64
+                        topP = 0.95f
+                        maxOutputTokens = 8192
+                        responseMimeType = "application/json"
+                    },
+            )
 
         // Generate content using the model with the given prompt
-        val response = model.generateContent(
-            content {
-                text(INITIAL_INSTRUCTION)
-                text("Ingredients: $prompt")
-                text(OUTPUT_INSTRUCTION)
-            }
-        )
-
+        val response =
+            model.generateContent(
+                content {
+                    text(INITIAL_INSTRUCTION)
+                    text("Ingredients: $prompt")
+                    text(OUTPUT_INSTRUCTION)
+                },
+            )
 
         // Parse the response into an ApiRecipe object
         return try {

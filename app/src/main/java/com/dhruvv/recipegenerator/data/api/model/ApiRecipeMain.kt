@@ -6,5 +6,5 @@ package com.dhruvv.recipegenerator.data.api.model
  * @property recipe The main recipe object containing detailed information about the recipe.
  */
 data class ApiRecipeMain(
-    val recipe: ApiRecipe
+    val recipe: ApiRecipe,
 )

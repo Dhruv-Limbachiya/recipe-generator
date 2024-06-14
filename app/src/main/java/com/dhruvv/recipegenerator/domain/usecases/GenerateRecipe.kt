@@ -10,7 +10,6 @@ import com.dhruvv.recipegenerator.domain.repo.RecipeRepo
  * @property recipeRepo The repository interface responsible for accessing recipe generation functionality.
  */
 class GenerateRecipe(private val recipeRepo: RecipeRepo) {
-
     /**
      * Invokes the use case to generate a recipe based on the provided data.
      *

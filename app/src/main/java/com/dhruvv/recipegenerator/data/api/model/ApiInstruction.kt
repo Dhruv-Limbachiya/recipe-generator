@@ -6,5 +6,5 @@ package com.dhruvv.recipegenerator.data.api.model
  * @property step The textual description of the instruction step.
  */
 data class ApiInstruction(
-    val step: String
+    val step: String,
 )

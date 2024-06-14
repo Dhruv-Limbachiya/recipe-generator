@@ -12,26 +12,25 @@ import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.semantics.SemanticsProperties.Text
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 
 @Composable
 fun GenerateRecipeScreen(
     modifier: Modifier = Modifier,
-    recipeViewModel: GenerateRecipeViewModel = hiltViewModel()
+    recipeViewModel: GenerateRecipeViewModel = hiltViewModel(),
 ) {
     Scaffold { paddingValues ->
         Column(
-            modifier = Modifier.fillMaxSize().padding(paddingValues),
+            modifier =
+                Modifier
+                    .fillMaxSize()
+                    .padding(paddingValues),
             verticalArrangement = Arrangement.Center,
-            horizontalAlignment = Alignment.CenterHorizontally
+            horizontalAlignment = Alignment.CenterHorizontally,
         ) {
-
             val prompt = recipeViewModel.prompt
             val recipe = recipeViewModel.generateRecipeState
 
@@ -39,7 +38,10 @@ fun GenerateRecipeScreen(
                 Log.i("GenerateRecipe", "GenerateRecipeScreen: ${recipe.value.generatedRecipe}")
             }
 
-            BasicPromptTextField(prompt = prompt.value, onPromptChange = recipeViewModel::updatePrompt)
+            BasicPromptTextField(
+                prompt = prompt.value,
+                onPromptChange = recipeViewModel::updatePrompt,
+            )
             Button(onClick = recipeViewModel::generateRecipe) {
                 Text(text = "Generate Recipe")
             }
@@ -47,11 +49,10 @@ fun GenerateRecipeScreen(
     }
 }
 
-
 @Composable
 fun BasicPromptTextField(
     prompt: String,
-    onPromptChange: (String) -> Unit
+    onPromptChange: (String) -> Unit,
 ) {
     TextField(value = prompt, onValueChange = onPromptChange)
 }

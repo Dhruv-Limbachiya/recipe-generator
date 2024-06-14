@@ -1,6 +1,5 @@
 package com.dhruvv.recipegenerator.data.api.gemini
 
-
 const val MODEL = "gemini-1.5-flash"
 const val OUTPUT_INSTRUCTION = "Recipes : "
 const val INITIAL_INSTRUCTION = """

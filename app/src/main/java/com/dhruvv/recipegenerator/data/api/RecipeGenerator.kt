@@ -6,7 +6,6 @@ import com.dhruvv.recipegenerator.data.api.model.ApiRecipe
  * RecipeGenerator interface defines a contract for generating recipes.
  */
 interface RecipeGenerator {
-
     /**
      * Generates a recipe based on the provided prompt.
      *
