@@ -80,6 +80,18 @@ android {
     }
 }
 
+// This block will be executed whenever a new task is added to the project.
+tasks.whenTaskAdded {
+    // Check if the task name is either "compileDebugJavaWithJavac" or "compileReleaseJavaWithJavac".
+    // These tasks are responsible for compiling the Java source files in debug and release configurations, respectively.
+    if (name == "compileDebugJavaWithJavac" || name == "compileReleaseJavaWithJavac") {
+        // Add a dependency on the "ktlintCheck" task.
+        // This means that before either of the compile tasks ("compileDebugJavaWithJavac" or "compileReleaseJavaWithJavac") can run,
+        // the "ktlintCheck" task must be completed successfully.
+        dependsOn("ktlintCheck")
+    }
+}
+
 fun Project.getLocalProperty(
     key: String,
     file: String = "local.properties",
