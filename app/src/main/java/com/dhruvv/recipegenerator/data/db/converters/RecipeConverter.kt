@@ -5,9 +5,10 @@ import androidx.room.ProvidedTypeConverter
 import androidx.room.TypeConverter
 import com.dhruvv.recipegenerator.common.parser.JsonParser
 import com.dhruvv.recipegenerator.data.api.model.ApiRecipe
+import javax.inject.Inject
 
 @ProvidedTypeConverter
-class RecipeConverter(
+class RecipeConverter @Inject constructor(
     private val jsonParser: JsonParser,
 ) {
     // Converts a Recipe object to its JSON string representation
@@ -29,13 +30,13 @@ class RecipeConverter(
     fun fromJsonStringToRecipe(jsonString: String): ApiRecipe {
         try {
             // Use the JsonParser to convert the JSON string back to a Recipe object
-            return jsonParser.fromJson(jsonString, ApiRecipe::class.java) ?: ApiRecipe.INVALID_Api_RECIPE
+            return jsonParser.fromJson(jsonString, ApiRecipe::class.java) ?: ApiRecipe.INVALID_API_RECIPE
         } catch (e: Exception) {
             // Log any exceptions that occur during conversion
             Log.e(TAG, "fromJsonStringToRecipe: $e")
         }
         // Return an INVALID_RECIPE if conversion fails
-        return ApiRecipe.INVALID_Api_RECIPE
+        return ApiRecipe.INVALID_API_RECIPE
     }
 
     companion object {

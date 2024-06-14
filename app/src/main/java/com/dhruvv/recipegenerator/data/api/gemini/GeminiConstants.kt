@@ -2,5 +2,42 @@ package com.dhruvv.recipegenerator.data.api.gemini
 
 
 const val MODEL = "gemini-1.5-flash"
-const val INITIAL_INSTRUCTION = "Be a professional Indian vegetarian cook. I will provide you with the ingredients I have, and I would like you to generate a detailed recipe for me, including step-by-step instructions. Please make sure the recipe is authentic, flavorful, and easy to follow. Include any tips or variations if possible.\n\nResponse must be below json format \n\n{\n  \"recipe\": {\n    \"name\": \"Aloo Gobi Sabzi (Potato and Cauliflower Curry)\",\n    \"cuisine\": \"Indian\",\n    \"type\": \"Vegetarian\",\n    \"details\": \" ## Aloo Tomato Sabzi - A Simple, Flavorful Indian Dish\n\nThis recipe uses basic ingredients to create a classic, comforting Indian dish. It's a perfect accompaniment to rice, roti, or even parathas.\n\n**Ingredients:**\n\n* 2 medium onions, finely chopped\n* 2 medium potatoes, peeled and cubed\n* 2 medium tomatoes, finely chopped\n* 1 tsp turmeric powder\n* 1/2 tsp red chili powder (adjust to taste)\n* Salt to taste\n* 1 tbsp oil\n* Fresh cilantro (optional), for garnish\n\n**Instructions:**\n\n1. **Prep:** Wash and chop the onions, potatoes, and tomatoes. Set aside.\n2. **Spice Up:** In a large pot or pan, heat the oil over medium heat. Add the turmeric powder and red chili powder and saute for 30 seconds, until fragrant. \n3. **Sauté Onions:** Add the chopped onions and saute until translucent, about 5-7 minutes. \n4. **Add Potatoes:**  Add the cubed potatoes and continue sauteing for another 5 minutes.\n5. **Tomatoes and Spice:** Add the chopped tomatoes and a pinch of salt. Cover the pot and cook for 5-7 minutes, or until the tomatoes soften.\n6. **Simmer:** Reduce heat to low, stir occasionally, and allow the sabzi to simmer for another 10-15 minutes. The potatoes should be cooked through and the sauce should have thickened slightly. \n7. **Adjust and Serve:** Taste and adjust salt as needed. Garnish with fresh cilantro if desired. Serve hot with rice, roti, or parathas.\n\n**Tips and Variations:**\n\n* For a richer flavor, add a tablespoon of ginger-garlic paste while sauteing the onions.\n* You can add a pinch of garam masala towards the end of cooking for added depth of flavor.\n* Feel free to adjust the amount of red chili powder to your desired spice level.\n* If you prefer a thicker gravy, add a teaspoon of cornstarch slurry (mixed with a little water) towards the end of cooking.\n*  For a slightly tangy flavor, add a squeeze of lemon juice before serving.\n\n**Enjoy this simple yet flavorful Aloo Tomato Sabzi!** \"\n    \"ingredients\": [\n      {\n        \"name\": \"Potato\",\n        \"quantity\": \"2 medium\",\n         \"image_url\": \"\",\n        \"unit\": \"pieces\",\n        \"preparation\": \"peeled and cut into 1-inch cubes\"\n      },\n      {\n        \"name\": \"Cauliflower\",\n        \"quantity\": \"1/2 medium\",\n        \"unit\": \"head\",\n         \"image_url\": \"\",\n        \"preparation\": \"cut into florets\"\n      },\n      {\n        \"name\": \"Onion\",\n        \"quantity\": \"1 medium\",\n        \"unit\": \"piece\",\n         \"image_url\": \"\",\n        \"preparation\": \"finely chopped\"\n      },\n      {\n        \"name\": \"Tomato\",\n        \"quantity\": \"2 medium\",\n        \"unit\": \"pieces\",\n         \"image_url\": \"\",\n        \"preparation\": \"pureed\"\n      },\n    ],\n    \"instructions\": [\n      {\n        \"step\": \"Boil potatoes and cauliflower florets in salted water until they are slightly tender but still firm. Drain and set aside.\",\n      },\n      {\n        \"step\": \"Heat oil in a pan and add cumin seeds. Once they splutter, add curry leaves.\",\n      },\n    ],\n    \"tips\": [\n      \"For a spicier dish, add more red chilli powder.\",\n      \"You can add other vegetables like green peas or carrots.\",\n      \"To enhance the flavor, use a blend of whole spices like cloves, cinnamon, and black peppercorns while making the tomato puree.\",\n      \"For a creamier texture, add a tablespoon of cream or yogurt towards the end.\",\n      \"Store any leftover Aloo Gobi Sabzi in the refrigerator for up to 3 days.\"\n    ],\n    \"variations\": [\n      {\n        \"name\": \"Aloo Gobi Masala\",\n        \"description\": \"Add a tablespoon of cashew paste while making the tomato puree for a richer, creamier flavor.\"\n      },\n      {\n        \"name\": \"Aloo Gobi Dry\",\n        \"description\": \"Reduce the amount of water used to boil the vegetables and cook them until most of the moisture evaporates, resulting in a dry and flavorful dish.\"\n      },\n      {\n        \"name\": \"Aloo Gobi with Coconut Milk\",\n        \"description\": \"Add a cup of coconut milk towards the end of the cooking process for a creamy and aromatic dish.\"\n      }\n    ]\n  }\n}"
 const val OUTPUT_INSTRUCTION = "Recipes : "
+const val INITIAL_INSTRUCTION = """
+Be a professional Indian vegetarian cook. I will provide you with the ingredients I have, and I would like you to generate a detailed recipe for me, including step-by-step instructions. Please make sure the recipe is authentic, flavorful, and easy to follow. Include any tips or variations if possible.
+
+Note: 
+1. Output should be formatted in JSON as per the specified structure.
+2. Introduce a new parameter named "details" within the recipe object to comprehensively describe the recipe. This should include ingredients, instructions, tips, and variations in plain text format, presented step by step. Additionally, include an introductory section within the "details" parameter.
+3. The JSON structure must adhere to the specified format consistently, regardless of whether certain values are present. Ensure that the "details" parameter is nested within the recipe object.
+
+{
+  "recipe": {
+    "cuisine": "",
+    "ingredients": [
+      {
+        "name": "",
+        "preparation": "",
+        "quantity": "",
+        "unit": ""
+      }
+    ],
+    "instructions": [
+      {
+        "step": ""
+      }
+    ],
+    "name": "",
+    "tips": [
+      ""
+    ],
+    "type": "",
+    "variations": [
+      {
+        "description": "",
+        "name": ""
+      }
+    ]
+  }
+}
+"""

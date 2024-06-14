@@ -2,6 +2,8 @@ package com.dhruvv.recipegenerator.data.db.room
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
+import androidx.room.TypeConverters
+import com.dhruvv.recipegenerator.data.db.converters.RecipeConverter
 import com.dhruvv.recipegenerator.data.db.dao.RecipeDao
 import com.dhruvv.recipegenerator.data.db.entities.RecipeEntity
 
