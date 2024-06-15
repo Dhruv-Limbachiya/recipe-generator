@@ -80,17 +80,17 @@ android {
     }
 }
 
-// This block will be executed whenever a new task is added to the project.
-tasks.whenTaskAdded {
-    // Check if the task name is either "compileDebugJavaWithJavac" or "compileReleaseJavaWithJavac".
-    // These tasks are responsible for compiling the Java source files in debug and release configurations, respectively.
-    if (name == "compileDebugJavaWithJavac" || name == "compileReleaseJavaWithJavac") {
-        // Add a dependency on the "ktlintCheck" task.
-        // This means that before either of the compile tasks ("compileDebugJavaWithJavac" or "compileReleaseJavaWithJavac") can run,
-        // the "ktlintCheck" task must be completed successfully.
-        dependsOn("ktlintCheck")
-    }
-}
+//// This block will be executed whenever a new task is added to the project.
+//tasks.whenTaskAdded {
+//    // Check if the task name is either "compileDebugJavaWithJavac" or "compileReleaseJavaWithJavac".
+//    // These tasks are responsible for compiling the Java source files in debug and release configurations, respectively.
+//    if (name == "compileDebugJavaWithJavac" || name == "compileReleaseJavaWithJavac") {
+//        // Add a dependency on the "ktlintCheck" task.
+//        // This means that before either of the compile tasks ("compileDebugJavaWithJavac" or "compileReleaseJavaWithJavac") can run,
+//        // the "ktlintCheck" task must be completed successfully.
+//        dependsOn("ktlintCheck")
+//    }
+//}
 
 fun Project.getLocalProperty(
     key: String,
@@ -123,6 +123,9 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
+
+//    implementation(libs.compose.foundation)
+    implementation(libs.androidx.compose.foundation.layout)
 
     testImplementation(libs.truth)
     androidTestImplementation(libs.truth)

@@ -7,4 +7,5 @@ package com.dhruvv.recipegenerator.domain.usecases
  */
 data class UseCase(
     val generateRecipe: GenerateRecipe,
+    val getStaticIngredient: GetStaticIngredient
 )

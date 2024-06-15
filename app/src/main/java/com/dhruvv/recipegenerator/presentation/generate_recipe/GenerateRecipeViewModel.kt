@@ -6,6 +6,10 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.dhruvv.recipegenerator.common.util.Resource
 import com.dhruvv.recipegenerator.data.model.Recipe
+import com.dhruvv.recipegenerator.data.static.cookingOils
+import com.dhruvv.recipegenerator.data.static.dairyProducts
+import com.dhruvv.recipegenerator.data.static.spices
+import com.dhruvv.recipegenerator.data.static.vegetables
 import com.dhruvv.recipegenerator.domain.usecases.UseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.collectLatest
@@ -86,4 +90,7 @@ class GenerateRecipeViewModel
         private fun updateGenerateRecipeState(generateRecipeState: GenerateRecipeState) {
             _generateRecipeState.value = generateRecipeState
         }
+
+
+        fun staticIngredients() = useCase.getStaticIngredient()
     }

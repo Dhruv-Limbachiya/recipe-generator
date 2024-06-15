@@ -1,58 +1,48 @@
 package com.dhruvv.recipegenerator.presentation.generate_recipe
 
-import android.util.Log
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Button
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.semantics.SemanticsProperties.Text
+import androidx.compose.ui.tooling.preview.Devices
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.dhruvv.recipegenerator.data.model.CheckableItem
+import com.dhruvv.recipegenerator.domain.usecases.GetStaticIngredient
+import com.dhruvv.recipegenerator.presentation.generate_recipe.composables.GenerateRecipeAppBar
+import com.dhruvv.recipegenerator.presentation.generate_recipe.composables.Ingredients
 
 @Composable
 fun GenerateRecipeScreen(
     modifier: Modifier = Modifier,
     recipeViewModel: GenerateRecipeViewModel = hiltViewModel(),
 ) {
-    Scaffold { paddingValues ->
-        Column(
-            modifier =
-                Modifier
-                    .fillMaxSize()
-                    .padding(paddingValues),
-            verticalArrangement = Arrangement.Center,
-            horizontalAlignment = Alignment.CenterHorizontally,
-        ) {
-            val prompt = recipeViewModel.prompt
-            val recipe = recipeViewModel.generateRecipeState
 
-            LaunchedEffect(key1 = recipe.value) {
-                Log.i("GenerateRecipe", "GenerateRecipeScreen: ${recipe.value.generatedRecipe}")
-            }
+    val staticIngredient = recipeViewModel.staticIngredients()
 
-            BasicPromptTextField(
-                prompt = prompt.value,
-                onPromptChange = recipeViewModel::updatePrompt,
-            )
-            Button(onClick = recipeViewModel::generateRecipe) {
-                Text(text = "Generate Recipe")
-            }
-        }
-    }
+    GenerateRecipeScaffold(modifier, staticIngredient)
 }
 
 @Composable
-fun BasicPromptTextField(
-    prompt: String,
-    onPromptChange: (String) -> Unit,
+private fun GenerateRecipeScaffold(
+    modifier: Modifier = Modifier,
+    staticIngredient: MutableMap<String, List<CheckableItem>>
 ) {
-    TextField(value = prompt, onValueChange = onPromptChange)
+    Scaffold(
+        topBar = {
+            GenerateRecipeAppBar(onCloseIconClick = {
+                // todo : pop the generate recipe screen
+            })
+        }
+    ) { paddingValues ->
+        Ingredients(modifier.padding(paddingValues), ingredientsMap = staticIngredient)
+    }
+}
+
+@Preview(showSystemUi = true, device = Devices.PIXEL_4)
+@Composable
+private fun GenerateRecipePreview() {
+    val staticIngredient = GetStaticIngredient().invoke()
+    GenerateRecipeScaffold(staticIngredient = staticIngredient)
 }
