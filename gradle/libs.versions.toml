@@ -33,6 +33,7 @@ googleServiceVersion = "4.4.2"
 kspVersion = "1.9.24-1.0.20"
 kotlinJvmVersion = "1.9.24"
 crashlytics = "3.0.1"
+uiTextGoogleFonts = "1.6.8"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -94,6 +95,7 @@ moshi = { module = "com.squareup.moshi:moshi-kotlin", version.ref = "moshiVersio
 
 # gemin gen ai
 gemini-generative-ai = { module = "com.google.ai.client.generativeai:generativeai", version.ref = "geminiGenAIVersion" }
+androidx-ui-text-google-fonts = { group = "androidx.compose.ui", name = "ui-text-google-fonts", version.ref = "uiTextGoogleFonts" }
 
 
 [plugins]
