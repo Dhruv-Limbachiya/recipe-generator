@@ -7,7 +7,6 @@ import com.dhruvv.recipegenerator.data.static.spices
 import com.dhruvv.recipegenerator.data.static.vegetables
 
 class GetStaticIngredient {
-
     operator fun invoke() = mutableMapOf(
         "Vegetables" to vegetables.map { vegetable -> CheckableItem(title = vegetable) },
         "Spices" to spices.map { spice -> CheckableItem(title = spice) },

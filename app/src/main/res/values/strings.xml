@@ -7,4 +7,5 @@
     <string name="spices">Spices</string>
     <string name="cooking_oil">Cooking Oil</string>
     <string name="dairy_products">Dairy Products</string>
+    <string name="generate_recipe">Generate recipe</string>
 </resources>

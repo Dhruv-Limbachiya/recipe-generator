@@ -1,20 +1,19 @@
 package com.dhruvv.recipegenerator.presentation.generate_recipe
 
+import android.util.Log
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.dhruvv.recipegenerator.common.util.Resource
+import com.dhruvv.recipegenerator.data.model.CheckableItem
 import com.dhruvv.recipegenerator.data.model.Recipe
-import com.dhruvv.recipegenerator.data.static.cookingOils
-import com.dhruvv.recipegenerator.data.static.dairyProducts
-import com.dhruvv.recipegenerator.data.static.spices
-import com.dhruvv.recipegenerator.data.static.vegetables
 import com.dhruvv.recipegenerator.domain.usecases.UseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+import kotlin.math.log
 
 /**
  * ViewModel responsible for managing the state and business logic related to recipe generation.
@@ -31,8 +30,15 @@ class GenerateRecipeViewModel
         private var _generateRecipeState = mutableStateOf(GenerateRecipeState.INVALID_GENERATE_RECIPE_STATE)
         val generateRecipeState: State<GenerateRecipeState> = _generateRecipeState
 
+        // map for holding the current generate recipe state
+        var staticIngredients: Map<String,List<CheckableItem>> = mutableMapOf()
+
         // Mutable state for holding the prompt value, used as input for generating the recipe.
         var prompt = mutableStateOf("")
+
+        init {
+            getStaticIngredients()
+        }
 
         /**
          * Function to initiate the recipe generation process.
@@ -40,8 +46,11 @@ class GenerateRecipeViewModel
          */
         fun generateRecipe() =
             viewModelScope.launch {
+                val prompt = preparePromptFromIngredients()
+                Log.i(TAG, "generateRecipe: $${prompt}")
+
                 // Call the use case to generate a recipe based on the current prompt value.
-                val generatedRecipeFlow = useCase.generateRecipe(prompt.value)
+                val generatedRecipeFlow = useCase.generateRecipe(prompt)
 
                 // Collect the latest value emitted by the generatedRecipeFlow coroutine flow.
                 generatedRecipeFlow.collectLatest { resource ->
@@ -92,5 +101,23 @@ class GenerateRecipeViewModel
         }
 
 
-        fun staticIngredients() = useCase.getStaticIngredient()
+        private fun getStaticIngredients()  {
+            staticIngredients = useCase.getStaticIngredient()
+        }
+
+        private fun preparePromptFromIngredients(): String {
+            val promptStr: StringBuilder = StringBuilder()
+            for ((key,value) in staticIngredients) {
+                val selectedItems = value.filter { it.isSelected }
+                if(selectedItems.isNotEmpty()) {
+                    promptStr.append(" $key : ${selectedItems.joinToString { it.title }}}")
+                    promptStr.append(",")
+                }
+            }
+            return promptStr.toString()
+        }
+
+        companion object {
+            private const val TAG = "GenerateRecipeViewModel"
+        }
     }

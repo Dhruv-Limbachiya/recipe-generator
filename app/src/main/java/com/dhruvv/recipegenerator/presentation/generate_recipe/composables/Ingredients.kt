@@ -119,7 +119,7 @@ fun IngredientsChip(checkableItem: CheckableItem) {
         shape = RoundedCornerShape(14.dp),
         onClick = {
             isSelected = !isSelected
-            checkableItem.isSelected = !isSelected
+            checkableItem.isSelected = isSelected
         },
         label = { Text(text = extractMainName(checkableItem.title)) },
         leadingIcon = if (isSelected) {
