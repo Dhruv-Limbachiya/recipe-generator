@@ -1,8 +1,6 @@
 package com.dhruvv.recipegenerator.presentation.home
 
 import android.content.res.Configuration
-import android.content.res.Configuration.UI_MODE_NIGHT_MASK
-import android.content.res.Configuration.UI_MODE_NIGHT_YES
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
@@ -10,7 +8,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.tooling.preview.Wallpapers
+import com.dhruvv.recipegenerator.presentation.common.NoRecipeFound
 import com.dhruvv.recipegenerator.presentation.home.composables.GetStartedBox
 import com.dhruvv.recipegenerator.presentation.home.composables.HomeHeader
 
@@ -35,6 +33,9 @@ private fun HomeScaffold() {
             HomeHeader()
             GetStartedBox {
 
+            }
+            NoRecipeFound {
+                
             }
         }
     }

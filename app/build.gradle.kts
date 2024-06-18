@@ -175,4 +175,7 @@ dependencies {
 
     // gemini gen ai
     implementation(libs.gemini.generative.ai)
+
+    // lottie animations
+    implementation(libs.lottie.compose)
 }

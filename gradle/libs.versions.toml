@@ -28,6 +28,7 @@ hiltNavigationCompose = "1.2.0"
 ktLintVersion = "12.1.1"
 geminiGenAIVersion = "0.7.0"
 
+
 # plugin versions
 googleServiceVersion = "4.4.2"
 kspVersion = "1.9.24-1.0.20"
@@ -96,6 +97,9 @@ moshi = { module = "com.squareup.moshi:moshi-kotlin", version.ref = "moshiVersio
 # gemin gen ai
 gemini-generative-ai = { module = "com.google.ai.client.generativeai:generativeai", version.ref = "geminiGenAIVersion" }
 androidx-ui-text-google-fonts = { group = "androidx.compose.ui", name = "ui-text-google-fonts", version.ref = "uiTextGoogleFonts" }
+
+# lottie animation
+lottie-compose = { module = "com.airbnb.android:lottie-compose", version.ref = "lottieCompose" }
 
 
 [plugins]

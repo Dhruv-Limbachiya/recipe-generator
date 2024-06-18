@@ -56,7 +56,7 @@ fun GetStartedBox(
                     .size(24.dp),
                 painter = painterResource(id = R.drawable.ic_magic_wand),
                 contentDescription = "Generate",
-                colorFilter = ColorFilter.tint(color = MaterialTheme.colorScheme.tertiary)
+                colorFilter = ColorFilter.tint(color = Color.Black)
             )
 
             Text(
