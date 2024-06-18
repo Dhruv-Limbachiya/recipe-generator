@@ -1,4 +1,4 @@
-package com.dhruvv.recipegenerator.presentation
+package com.dhruvv.recipegenerator.presentation.main
 
 import android.content.res.Configuration
 import android.os.Bundle
@@ -24,15 +24,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             RecipeGeneratorTheme {
-                // A surface container using the 'background' color from the theme
-                Surface(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .safeDrawingPadding(),
-                    color = MaterialTheme.colorScheme.background,
-                ) {
-                    HomeScreen()
-                }
+                RecipeGeneratorMain()
             }
         }
     }
@@ -42,14 +34,6 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun HomeScreenPreview() {
     RecipeGeneratorTheme {
-        // A surface container using the 'background' color from the theme
-        Surface(
-            modifier = Modifier
-                .fillMaxSize()
-                .safeDrawingPadding(),
-            color = MaterialTheme.colorScheme.background,
-        ) {
-            HomeScreen()
-        }
+        RecipeGeneratorMain()
     }
 }

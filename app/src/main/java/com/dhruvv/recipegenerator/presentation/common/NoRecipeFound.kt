@@ -28,7 +28,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.airbnb.lottie.compose.LottieAnimation
 import com.airbnb.lottie.compose.LottieCompositionSpec
-import com.airbnb.lottie.compose.LottieConstants
 import com.airbnb.lottie.compose.LottieConstants.IterateForever
 import com.airbnb.lottie.compose.animateLottieCompositionAsState
 import com.airbnb.lottie.compose.rememberLottieComposition
@@ -39,13 +38,13 @@ import com.dhruvv.recipegenerator.R
  *
  * @param modifier Modifier for adjusting the layout and appearance of the entire screen.
  * @param showAddExpenseButton Flag to determine whether to show the "Generate Recipe" button.
- * @param onAddExpenseButtonClicked Callback function triggered when the "Generate Recipe" button is clicked.
+ * @param onGenerateRecipeButtonClick Callback function triggered when the "Generate Recipe" button is clicked.
  */
 @Composable
 fun NoRecipeFound(
     modifier: Modifier = Modifier,
     showAddExpenseButton: Boolean = true,
-    onAddExpenseButtonClicked: () -> Unit,
+    onGenerateRecipeButtonClick: () -> Unit,
 ) {
     // Load Lottie animation for no record found
     val noRecordFoundComposition by rememberLottieComposition(spec = LottieCompositionSpec.RawRes(R.raw.no_record_found))
@@ -84,7 +83,7 @@ fun NoRecipeFound(
             Button(
                 modifier = Modifier
                     .padding(horizontal = 12.dp, vertical = 16.dp),
-                onClick = onAddExpenseButtonClicked,
+                onClick = onGenerateRecipeButtonClick,
             ) {
                 Row(
                     modifier = Modifier

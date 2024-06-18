@@ -27,45 +27,71 @@ import com.dhruvv.recipegenerator.domain.usecases.GetStaticIngredient
 import com.dhruvv.recipegenerator.presentation.generate_recipe.composables.GenerateRecipeAppBar
 import com.dhruvv.recipegenerator.presentation.generate_recipe.composables.Ingredients
 
+/**
+ * Composable function for the Generate Recipe screen.
+ *
+ * @param modifier Modifier for adjusting the layout and appearance of the screen.
+ * @param recipeViewModel ViewModel to handle business logic related to generating recipes.
+ * @param onPop Callback function to handle navigation back from the screen.
+ */
 @Composable
 fun GenerateRecipeScreen(
     modifier: Modifier = Modifier,
     recipeViewModel: GenerateRecipeViewModel = hiltViewModel(),
+    onPop: () -> Unit
 ) {
-
+    // Obtain static ingredients from the view model
     val staticIngredient = recipeViewModel.staticIngredients
 
-    GenerateRecipeScaffold(modifier, staticIngredient)
+    // Render the GenerateRecipeScaffold passing necessary parameters
+    GenerateRecipeScaffold(modifier, staticIngredient, onPop = onPop)
 }
 
+
+/**
+ * Private composable function for the scaffold of the Generate Recipe screen.
+ *
+ * @param modifier Modifier for adjusting the layout and appearance of the scaffold.
+ * @param staticIngredientsMap Map of static ingredients to be displayed.
+ * @param onPop Callback function to handle navigation back from the screen.
+ */
 @Composable
 private fun GenerateRecipeScaffold(
     modifier: Modifier = Modifier,
     staticIngredientsMap: Map<String, List<CheckableItem>>,
+    onPop: () -> Unit
 ) {
-
+    // Obtain the view model instance for generating recipes
     val viewModel: GenerateRecipeViewModel = hiltViewModel()
 
+    // Observe the state related to recipe generation
     val generateRecipeState by remember {
         viewModel.generateRecipeState
     }
 
+    // Scaffold provides basic material design structure with a top app bar
     Scaffold(
         topBar = {
-            GenerateRecipeAppBar(onCloseIconClick = {
-                // todo : pop the generate recipe screen
-            })
+            // Custom app bar for the Generate Recipe screen
+            GenerateRecipeAppBar(onCloseIconClick = onPop)
         }
     ) { paddingValues ->
+        // Box composable for managing loading state or displaying content
         Box {
-            if(generateRecipeState.isLoading) {
+            // Show loading indicator if recipe is being generated
+            if (generateRecipeState.isLoading) {
                 CircularProgressIndicator()
-            } else if(generateRecipeState.generatedRecipe != Recipe.INVALID_RECIPE) {
-                Toast.makeText(LocalContext.current,"Recipe generated",Toast.LENGTH_LONG).show()
+            } else if (generateRecipeState.generatedRecipe != Recipe.INVALID_RECIPE) {
+                // Show a toast when a recipe is successfully generated
+                Toast.makeText(LocalContext.current, "Recipe generated", Toast.LENGTH_LONG).show()
             }
 
+            // Column composable to arrange UI elements vertically with padding
             Column(modifier = Modifier.padding(paddingValues)) {
+                // Display the list of ingredients with checkboxes
                 Ingredients(modifier = modifier.weight(1f), ingredientsMap = staticIngredientsMap)
+
+                // Button to initiate recipe generation process
                 Button(
                     modifier = Modifier
                         .padding(16.dp)
@@ -83,5 +109,5 @@ private fun GenerateRecipeScaffold(
 @Composable
 private fun GenerateRecipePreview() {
     val staticIngredient = GetStaticIngredient().invoke()
-    GenerateRecipeScaffold(staticIngredientsMap = staticIngredient)
+    GenerateRecipeScaffold(staticIngredientsMap = staticIngredient, onPop = {})
 }

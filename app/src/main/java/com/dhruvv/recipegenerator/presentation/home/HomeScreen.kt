@@ -16,27 +16,41 @@ import com.dhruvv.recipegenerator.presentation.home.composables.HomeHeader
 /**
  * Composable function for displaying the Home screen.
  * It uses HomeScaffold as the main layout container.
+ *
+ * @param navigateToGenerateRecipeScreen Callback to navigate to the Generate Recipe screen.
  */
 @Composable
-fun HomeScreen() {
-    HomeScaffold()
+fun HomeScreen(
+    navigateToGenerateRecipeScreen: () -> Unit
+) {
+    // Render the HomeScaffold passing the navigateToGenerateRecipeScreen callback
+    HomeScaffold(navigateToGenerateRecipeScreen)
 }
 
 /**
  * Private composable function for the Home screen scaffold.
  * It uses Scaffold to provide basic material design structure.
+ *
+ * @param navigateToGenerateRecipeScreen Callback to navigate to the Generate Recipe screen.
  */
 @Composable
-private fun HomeScaffold() {
+private fun HomeScaffold(
+    navigateToGenerateRecipeScreen: () -> Unit
+) {
+    // Scaffold provides a basic material design structure with padding
     Scaffold { paddingValues ->
         Column(modifier = Modifier.padding(paddingValues)) {
+            // Display the header of the Home screen
             HomeHeader()
-            GetStartedBox {
 
-            }
-            NoRecipeFound {
-                
-            }
+            // Button to get started and navigate to Generate Recipe screen
+            GetStartedBox(onGetStartedButtonClick = navigateToGenerateRecipeScreen)
+
+            // Component to handle scenario when no recipes are found
+            NoRecipeFound(
+                showAddExpenseButton = true,
+                onGenerateRecipeButtonClick = navigateToGenerateRecipeScreen
+            )
         }
     }
 }
@@ -48,5 +62,5 @@ private fun HomeScaffold() {
 @Preview(showSystemUi = true, device = Devices.PIXEL_5, uiMode = Configuration.UI_MODE_NIGHT_YES)
 @Composable
 private fun HomeScreenPreview() {
-    HomeScaffold()
+    HomeScaffold({})
 }
