@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ContextualFlowRow
 import androidx.compose.foundation.layout.ContextualFlowRowOverflow
+import androidx.compose.foundation.layout.ContextualFlowRowOverflowScope
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -59,6 +60,19 @@ fun Ingredients(
             // Manage the maximum number of lines for the flow row
             var maxLines by remember { mutableIntStateOf(2) }
 
+            val moreOrCollapseIndicator = @Composable { scope: ContextualFlowRowOverflowScope ->
+                // Calculate remaining items and label for expand/collapse indicator
+                val remainingItems = scope.totalItemCount - scope.shownItemCount
+                val label = if (remainingItems == 0) "Less" else "+$remainingItems"
+                SuggestionChip(
+                    onClick = {
+                        maxLines = if (remainingItems == 0) 2 else maxLines + 5
+                    },
+                    label = { Text(text = label) },
+                    shape = RoundedCornerShape(14.dp),
+                )
+            }
+
             ContextualFlowRow(
                 modifier = Modifier
                     .safeDrawingPadding()
@@ -70,32 +84,8 @@ fun Ingredients(
                 maxLines = maxLines,
                 overflow = ContextualFlowRowOverflow.expandOrCollapseIndicator(
                     minRowsToShowCollapse = 4,
-                    expandIndicator = {
-                        // Calculate remaining items and label for expand/collapse indicator
-                        val total = ingredientsMap[header]?.size ?: 0
-                        val remainingItems = totalItemCount - shownItemCount
-                        val label = if (remainingItems == 0) "Less" else "+$remainingItems"
-                        SuggestionChip(
-                            onClick = {
-                                maxLines = if (remainingItems == 0) 2 else maxLines + 5
-                            },
-                            label = { Text(text = label) },
-                            shape = RoundedCornerShape(14.dp),
-                        )
-                    },
-                    collapseIndicator = {
-                        // Calculate remaining items and label for expand/collapse indicator
-                        val total = ingredientsMap[header]?.size ?: 0
-                        val remainingItems = totalItemCount - shownItemCount
-                        val label = if (remainingItems == 0) "Less" else "+$remainingItems"
-                        SuggestionChip(
-                            onClick = {
-                                maxLines = if (remainingItems == 0) 2 else maxLines + 5
-                            },
-                            label = { Text(text = label) },
-                            shape = RoundedCornerShape(14.dp),
-                        )
-                    }
+                    expandIndicator = moreOrCollapseIndicator,
+                    collapseIndicator = moreOrCollapseIndicator
                 ),
                 itemCount = ingredientsMap[header]?.size ?: 0
             ) { index ->
