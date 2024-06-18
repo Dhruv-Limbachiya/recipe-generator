@@ -1,11 +1,14 @@
 <resources>
     <string name="app_name">Recipe Generator</string>
 
-    <!--    generate recipe screen strings-->
+    <!-- generate recipe screen strings-->
     <string name="choose_your_ingredients">Choose your Ingredients</string>
     <string name="vegetables">Vegetables</string>
     <string name="spices">Spices</string>
     <string name="cooking_oil">Cooking Oil</string>
     <string name="dairy_products">Dairy Products</string>
     <string name="generate_recipe">Generate recipe</string>
+
+    <!-- home screen strings -->
+    <string name="home_header">Not sure what to cook in %s?</string>
 </resources>
