@@ -1,5 +1,6 @@
 package com.dhruvv.recipegenerator.presentation
 
+import android.content.res.Configuration
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -10,6 +11,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import com.dhruvv.recipegenerator.presentation.generate_recipe.GenerateRecipeScreen
 import com.dhruvv.recipegenerator.presentation.home.HomeScreen
@@ -24,7 +26,9 @@ class MainActivity : ComponentActivity() {
             RecipeGeneratorTheme {
                 // A surface container using the 'background' color from the theme
                 Surface(
-                    modifier = Modifier.fillMaxSize().safeDrawingPadding(),
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .safeDrawingPadding(),
                     color = MaterialTheme.colorScheme.background,
                 ) {
                     HomeScreen()
@@ -34,21 +38,18 @@ class MainActivity : ComponentActivity() {
     }
 }
 
+@Preview(showSystemUi = true, device = Devices.PIXEL_5, uiMode = Configuration.UI_MODE_NIGHT_YES)
 @Composable
-fun Greeting(
-    name: String,
-    modifier: Modifier = Modifier,
-) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier,
-    )
-}
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
+fun HomeScreenPreview() {
     RecipeGeneratorTheme {
-        Greeting("Android")
+        // A surface container using the 'background' color from the theme
+        Surface(
+            modifier = Modifier
+                .fillMaxSize()
+                .safeDrawingPadding(),
+            color = MaterialTheme.colorScheme.background,
+        ) {
+            HomeScreen()
+        }
     }
 }
