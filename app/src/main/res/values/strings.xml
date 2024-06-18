@@ -11,4 +11,6 @@
 
     <!-- home screen strings -->
     <string name="home_header">Not sure what to cook in %s?</string>
+    <string name="recipe_from_your_ingredients">We\'ll create recipes based on ingredients you have. You can also tell us what you\'re in the mood for.</string>
+    <string name="get_started">Get Started</string>
 </resources>
