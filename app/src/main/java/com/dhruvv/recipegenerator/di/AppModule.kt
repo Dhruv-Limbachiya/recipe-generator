@@ -12,6 +12,7 @@ import com.dhruvv.recipegenerator.data.repo.RecipeRepoImpl
 import com.dhruvv.recipegenerator.domain.repo.RecipeRepo
 import com.dhruvv.recipegenerator.domain.usecases.GenerateRecipe
 import com.dhruvv.recipegenerator.domain.usecases.GetGeneratedRecipes
+import com.dhruvv.recipegenerator.domain.usecases.GetRecipeById
 import com.dhruvv.recipegenerator.domain.usecases.GetStaticIngredient
 import com.dhruvv.recipegenerator.domain.usecases.UseCase
 import com.squareup.moshi.Moshi
@@ -98,6 +99,7 @@ object AppModule {
         UseCase(
             GenerateRecipe(recipeRepo),
             GetStaticIngredient(),
-            GetGeneratedRecipes(recipeRepo)
+            GetGeneratedRecipes(recipeRepo),
+            GetRecipeById(recipeRepo)
         )
 }

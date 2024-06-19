@@ -117,7 +117,11 @@ class GenerateRecipeViewModel
             return promptStr.toString()
         }
 
-        companion object {
+    fun resetRecipeDetail() {
+        _generateRecipeState.value = GenerateRecipeState.INVALID_GENERATE_RECIPE_STATE
+    }
+
+    companion object {
             private const val TAG = "GenerateRecipeViewModel"
         }
     }

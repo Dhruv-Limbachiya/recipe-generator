@@ -61,7 +61,9 @@ fun AppNavHost(
         ) {backStackEntry ->
             // Get the recipe id from the arguments and pass to the RecipeDetailScreen composable
             val recipeId = backStackEntry.arguments?.getInt("recipeId") ?: -1
-            RecipeDetailScreen(recipeId = recipeId)
+            RecipeDetailScreen(recipeId = recipeId, onPop =  {
+                navHostController.popBackStack()
+            })
         }
     }
 }

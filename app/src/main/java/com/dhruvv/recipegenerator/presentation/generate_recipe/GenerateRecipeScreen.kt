@@ -104,6 +104,7 @@ private fun GenerateRecipeScaffold(
             } else if (generateRecipeState.generatedRecipe != Recipe.INVALID_RECIPE) {
                 // navigate to RecipeDetailScreen on successful generation of Recipe
                 navigateToRecipeDetailScreen(generateRecipeState.generatedRecipe.id)
+                viewModel.resetRecipeDetail()
             }
 
             // Column composable to arrange UI elements vertically with padding
