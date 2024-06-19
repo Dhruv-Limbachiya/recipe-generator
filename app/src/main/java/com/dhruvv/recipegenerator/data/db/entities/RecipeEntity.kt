@@ -13,7 +13,7 @@ import com.dhruvv.recipegenerator.data.model.Recipe
 @TypeConverters(RecipeConverter::class) // Specifies the converter for handling Recipe objects
 data class RecipeEntity(
     @PrimaryKey(autoGenerate = true)
-    val id: Int,
+    var id: Int,
     // Column to store the Recipe object, using the RecipeConverter to convert to/from JSON
     val apiRecipe: ApiRecipe,
     // Column to store the timestamp of when the recipe was generated

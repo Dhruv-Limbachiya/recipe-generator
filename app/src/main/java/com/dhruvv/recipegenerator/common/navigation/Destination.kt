@@ -22,4 +22,9 @@ sealed class Destination(
      * Represents the recipes screen destination.
      */
     data object RecipeScreen : Destination(Route.RECIPES)
+
+    /**
+     * Represents the recipe detail screen destination.
+     */
+    data object RecipeDetailScreen : Destination(Route.RECIPE_DETAIL)
 }

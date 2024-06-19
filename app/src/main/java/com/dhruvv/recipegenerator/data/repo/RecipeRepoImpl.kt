@@ -33,8 +33,10 @@ class RecipeRepoImpl(
                 val response = recipeGenerator.generateRecipe(prompt)
                 response?.let { apiRecipe ->
                     val recipeEntity = apiRecipe.toRecipeEntity()
-                    recipeDao.insertRecipe(recipeEntity)
-                    emit(Resource.Success(recipeEntity.toRecipeUIModel()))
+                    val recipeId = recipeDao.insertRecipe(recipeEntity)
+                    emit(Resource.Success(recipeEntity.apply {
+                      this.id = recipeId.toInt()
+                    }.toRecipeUIModel()))
                 }
 
                 if (response == null) {

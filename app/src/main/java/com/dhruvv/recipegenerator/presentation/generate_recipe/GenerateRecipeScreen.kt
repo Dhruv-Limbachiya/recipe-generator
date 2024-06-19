@@ -3,6 +3,7 @@ package com.dhruvv.recipegenerator.presentation.generate_recipe
 import android.widget.Toast
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
@@ -13,6 +14,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
@@ -32,19 +34,26 @@ import com.dhruvv.recipegenerator.presentation.generate_recipe.composables.Ingre
  *
  * @param modifier Modifier for adjusting the layout and appearance of the screen.
  * @param recipeViewModel ViewModel to handle business logic related to generating recipes.
+ * @param navigateToRecipeDetailScreen Callback to handle navigation from GenerateRecipeScreen to RecipeDetailScreen.
  * @param onPop Callback function to handle navigation back from the screen.
  */
 @Composable
 fun GenerateRecipeScreen(
     modifier: Modifier = Modifier,
     recipeViewModel: GenerateRecipeViewModel = hiltViewModel(),
+    navigateToRecipeDetailScreen: (Int) -> Unit,
     onPop: () -> Unit
 ) {
     // Obtain static ingredients from the view model
     val staticIngredient = recipeViewModel.staticIngredients
 
     // Render the GenerateRecipeScaffold passing necessary parameters
-    GenerateRecipeScaffold(modifier, staticIngredient, onPop = onPop)
+    GenerateRecipeScaffold(
+        modifier,
+        staticIngredient,
+        navigateToRecipeDetailScreen = navigateToRecipeDetailScreen,
+        onPop = onPop
+    )
 }
 
 
@@ -53,12 +62,14 @@ fun GenerateRecipeScreen(
  *
  * @param modifier Modifier for adjusting the layout and appearance of the scaffold.
  * @param staticIngredientsMap Map of static ingredients to be displayed.
+ * @param navigateToRecipeDetailScreen Callback to handle navigation from GenerateRecipeScreen to RecipeDetailScreen.
  * @param onPop Callback function to handle navigation back from the screen.
  */
 @Composable
 private fun GenerateRecipeScaffold(
     modifier: Modifier = Modifier,
     staticIngredientsMap: Map<String, List<CheckableItem>>,
+    navigateToRecipeDetailScreen: (Int) -> Unit,
     onPop: () -> Unit
 ) {
     // Obtain the view model instance for generating recipes
@@ -78,12 +89,21 @@ private fun GenerateRecipeScaffold(
     ) { paddingValues ->
         // Box composable for managing loading state or displaying content
         Box {
-            // Show loading indicator if recipe is being generated
+
             if (generateRecipeState.isLoading) {
-                CircularProgressIndicator()
+                // Show loading indicator if recipe is being generated
+                Box(modifier = Modifier.align(Alignment.Center)) {
+                    CircularProgressIndicator()
+                }
+            } else if (generateRecipeState.isErrorMessage.isNotEmpty() && generateRecipeState.generatedRecipe == Recipe.INVALID_RECIPE) {
+                Toast.makeText(
+                    LocalContext.current,
+                    generateRecipeState.isErrorMessage,
+                    Toast.LENGTH_LONG
+                ).show()
             } else if (generateRecipeState.generatedRecipe != Recipe.INVALID_RECIPE) {
-                // Show a toast when a recipe is successfully generated
-                Toast.makeText(LocalContext.current, "Recipe generated", Toast.LENGTH_LONG).show()
+                // navigate to RecipeDetailScreen on successful generation of Recipe
+                navigateToRecipeDetailScreen(generateRecipeState.generatedRecipe.id)
             }
 
             // Column composable to arrange UI elements vertically with padding
@@ -109,5 +129,5 @@ private fun GenerateRecipeScaffold(
 @Composable
 private fun GenerateRecipePreview() {
     val staticIngredient = GetStaticIngredient().invoke()
-    GenerateRecipeScaffold(staticIngredientsMap = staticIngredient, onPop = {})
+    GenerateRecipeScaffold(staticIngredientsMap = staticIngredient, navigateToRecipeDetailScreen = {}, onPop = {})
 }
