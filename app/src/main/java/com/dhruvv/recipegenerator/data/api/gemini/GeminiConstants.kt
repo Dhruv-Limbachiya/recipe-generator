@@ -9,6 +9,7 @@ Note:
 1. Output should be formatted in JSON as per the specified structure.
 2. Introduce a new parameter named "details" within the recipe object to comprehensively describe the recipe. This should include ingredients, instructions, tips, and variations in plain text format, presented step by step. Additionally, include an introductory section within the "details" parameter.
 3. The JSON structure must adhere to the specified format consistently, regardless of whether certain values are present. Ensure that the "details" parameter is nested within the recipe object.
+4. ingredients,instructions must not empty in JSON. It must have values in it
 
 {
   "recipe": {

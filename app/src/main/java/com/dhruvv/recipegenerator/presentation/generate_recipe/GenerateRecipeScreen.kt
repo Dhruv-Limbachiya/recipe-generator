@@ -89,6 +89,22 @@ private fun GenerateRecipeScaffold(
     ) { paddingValues ->
         // Box composable for managing loading state or displaying content
         Box {
+            // Column composable to arrange UI elements vertically with padding
+            Column(modifier = Modifier.padding(paddingValues)) {
+                // Display the list of ingredients with checkboxes
+                Ingredients(modifier = modifier.weight(1f), ingredientsMap = staticIngredientsMap)
+
+                // Button to initiate recipe generation process
+                Button(
+                    modifier = Modifier
+                        .padding(16.dp)
+                        .fillMaxWidth(),
+                    onClick = viewModel::generateRecipe
+                ) {
+                    Text(text = stringResource(id = R.string.generate_recipe))
+                }
+            }
+
 
             if (generateRecipeState.isLoading) {
                 // Show loading indicator if recipe is being generated
@@ -107,21 +123,6 @@ private fun GenerateRecipeScaffold(
                 viewModel.resetRecipeDetail()
             }
 
-            // Column composable to arrange UI elements vertically with padding
-            Column(modifier = Modifier.padding(paddingValues)) {
-                // Display the list of ingredients with checkboxes
-                Ingredients(modifier = modifier.weight(1f), ingredientsMap = staticIngredientsMap)
-
-                // Button to initiate recipe generation process
-                Button(
-                    modifier = Modifier
-                        .padding(16.dp)
-                        .fillMaxWidth(),
-                    onClick = viewModel::generateRecipe
-                ) {
-                    Text(text = stringResource(id = R.string.generate_recipe))
-                }
-            }
         }
     }
 }

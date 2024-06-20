@@ -1,17 +1,14 @@
 package com.dhruvv.recipegenerator.presentation.recipe_detail
 
-import android.util.Log
 import android.widget.Toast
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.ArrowBack
-import androidx.compose.material.icons.rounded.ArrowBack
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -29,37 +26,58 @@ import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.dhruvv.recipegenerator.presentation.recipe_detail.composables.RecipeIngredient
+import com.dhruvv.recipegenerator.presentation.recipe_detail.composables.RecipeInstruction
+import com.dhruvv.recipegenerator.presentation.recipe_detail.composables.RecipeTip
+import com.dhruvv.recipegenerator.presentation.recipe_detail.composables.RecipeVariation
 
+/**
+ * A Composable function to display the detail screen of a recipe.
+ *
+ * @param modifier A [Modifier] for styling and layout purposes.
+ * @param recipeId The ID of the recipe to be displayed.
+ * @param onPop A lambda function to be called when the back button is pressed.
+ */
 @Composable
 fun RecipeDetailScreen(
     modifier: Modifier = Modifier,
     recipeId: Int,
     onPop: () -> Unit
 ) {
-    RecipeDetailScaffold(modifier = modifier, recipeId = recipeId,onPop = onPop)
+    // Call the scaffold that manages the layout of the screen
+    RecipeDetailScaffold(modifier = modifier, recipeId = recipeId, onPop = onPop)
 }
 
+/**
+ * A Composable function to create a scaffold layout for the recipe detail screen.
+ *
+ * @param modifier A [Modifier] for styling and layout purposes.
+ * @param recipeId The ID of the recipe to be displayed.
+ * @param onPop A lambda function to be called when the back button is pressed.
+ */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun RecipeDetailScaffold(
     modifier: Modifier = Modifier,
     recipeId: Int,
-    recipeDetailViewModel: RecipeDetailViewModel = hiltViewModel(),
     onPop: () -> Unit
 ) {
+    // Obtain the RecipeDetailViewModel instance using Hilt
+    val recipeDetailViewModel: RecipeDetailViewModel = hiltViewModel()
 
-    val recipeDetailState by remember {
-        recipeDetailViewModel.recipeDetailState
-    }
+    // Observe the recipe detail state
+    val recipeDetailState by remember { recipeDetailViewModel.recipeDetailState }
 
+    // Load recipe details when the composable is launched
     LaunchedEffect(key1 = Unit) {
-       if(recipeId != -1) {
-           recipeDetailViewModel.getRecipe(recipeId)
-       } else {
-           recipeDetailViewModel.resetRecipeState()
-       }
+        if (recipeId != -1) {
+            recipeDetailViewModel.getRecipe(recipeId)
+        } else {
+            recipeDetailViewModel.resetRecipeState()
+        }
     }
 
+    // Handle back button press
     BackHandler {
         recipeDetailViewModel.resetRecipeState()
         onPop()
@@ -83,38 +101,62 @@ fun RecipeDetailScaffold(
         }
     ) { paddingValues ->
         Box(modifier = Modifier.padding(paddingValues)) {
+            when {
+                recipeDetailState.isLoading -> {
+                    // Show loading indicator while loading
+                    CircularProgressIndicator()
+                }
 
-            if (recipeDetailState.isLoading) {
-                Log.i("RecipeDetailScreen", "RecipeDetailScaffold: loading")
-                CircularProgressIndicator()
-            } else if (recipeDetailState.error.isNotEmpty()) {
-                Log.i(
-                    "RecipeDetailScreen",
-                    "RecipeDetailScaffold: Error : ${recipeDetailState.error}"
-                )
-                Toast.makeText(LocalContext.current, recipeDetailState.error, Toast.LENGTH_SHORT)
-                    .show()
-            } else {
-                Log.i(
-                    "RecipeDetailScreen",
-                    "RecipeDetailScaffold: Recipe : ${recipeDetailState.recipe.apiRecipe.details}"
-                )
-                recipeDetailState.recipe.apiRecipe.details?.let {
-                    Text(
-                        it,
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .verticalScroll(rememberScrollState())
-                            .padding(16.dp)
+                recipeDetailState.error.isNotEmpty() -> {
+                    // Show error message if an error occurs
+                    Toast.makeText(
+                        LocalContext.current,
+                        recipeDetailState.error,
+                        Toast.LENGTH_SHORT
                     )
+                        .show()
+                }
+
+                else -> {
+                    // Display recipe details in a LazyColumn
+                    val recipe = recipeDetailState.recipe.apiRecipe
+                    LazyColumn {
+                        item {
+                            RecipeIngredient(ingredients = recipe.apiIngredients)
+                        }
+                        item {
+                            Spacer(modifier = Modifier.height(20.dp))
+                        }
+                        item {
+                            RecipeInstruction(instructions = recipe.apiInstructions)
+                        }
+                        item {
+                            Spacer(modifier = Modifier.height(20.dp))
+                        }
+                        item {
+                            RecipeTip(tips = recipe.tips)
+                        }
+                        item {
+                            Spacer(modifier = Modifier.height(20.dp))
+                        }
+                        item {
+                            RecipeVariation(variations = recipe.apiVariations)
+                        }
+                    }
                 }
             }
         }
     }
 }
 
+/**
+ * A Composable function for previewing the [RecipeDetailScreen] composable.
+ *
+ * This function is used only in the Android Studio Preview and not in production.
+ */
 @Preview(showSystemUi = true, device = Devices.PIXEL_5)
 @Composable
 private fun RecipeDetailScreenPreview() {
-    RecipeDetailScreen(recipeId = -1, onPop = {})
+    // Display the RecipeDetailScaffold composable with sample data
+    RecipeDetailScaffold(recipeId = 1, onPop = {})
 }
