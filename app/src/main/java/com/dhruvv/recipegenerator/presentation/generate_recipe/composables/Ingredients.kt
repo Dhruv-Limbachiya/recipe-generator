@@ -26,6 +26,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -50,9 +51,8 @@ fun Ingredients(
         ingredientsMap.keys.forEach { header ->
             // Display the header text
             Text(
-                modifier = Modifier.padding(start = 12.dp),
                 text = header,
-                style = MaterialTheme.typography.titleLarge
+                style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold)
             )
 
             // Manage the maximum number of lines for the flow row
@@ -74,7 +74,6 @@ fun Ingredients(
             ContextualFlowRow(
                 modifier = Modifier
                     .safeDrawingPadding()
-                    .padding(start = 8.dp, end = 4.dp)
                     .padding(vertical = 8.dp)
                     .wrapContentHeight(align = Alignment.Top),
                 verticalArrangement = Arrangement.Top,
@@ -88,7 +87,9 @@ fun Ingredients(
                 itemCount = ingredientsMap[header]?.size ?: 0
             ) { index ->
                 // Display each ingredient chip
-                ingredientsMap[header]?.get(index)?.let { IngredientsChip(it,onSelectionChange) }
+                ingredientsMap[header]?.get(index)?.let {
+                    IngredientsChip(it,onSelectionChange)
+                }
             }
         }
     }
@@ -98,7 +99,8 @@ fun Ingredients(
 @Composable
 fun IngredientsChip(checkableItem: CheckableItem, onSelectionChange: () -> Unit) {
     // Remember the selection state for the chip
-    var isSelected by remember { mutableStateOf(false) }
+    var isSelected by remember { mutableStateOf(false)  }
+    isSelected = checkableItem.isSelected
 
     // Display the filter chip with selection logic
     FilterChip(

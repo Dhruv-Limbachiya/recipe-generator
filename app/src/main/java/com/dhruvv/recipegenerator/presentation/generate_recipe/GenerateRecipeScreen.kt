@@ -1,27 +1,37 @@
 package com.dhruvv.recipegenerator.presentation.generate_recipe
 
 import android.widget.Toast
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Close
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.TextUnit
+import androidx.compose.ui.unit.TextUnitType
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.dhruvv.recipegenerator.R
@@ -47,7 +57,9 @@ fun GenerateRecipeScreen(
     onPop: () -> Unit
 ) {
     // Obtain static ingredients from the view model
-    val staticIngredient = recipeViewModel.staticIngredients
+    val staticIngredient by remember {
+        recipeViewModel.staticIngredients
+    }
 
     // Render the GenerateRecipeScaffold passing necessary parameters
     GenerateRecipeScaffold(
@@ -101,7 +113,7 @@ private fun GenerateRecipeScaffold(
 
                 // Display the list of ingredients with checkboxes
                 Ingredients(
-                    modifier = modifier.weight(1f),
+                    modifier = modifier.weight(1f).padding(horizontal = 16.dp),
                     ingredientsMap = staticIngredientsMap,
                     onSelectionChange = {
                         isAnyItemSelected =
@@ -109,19 +121,43 @@ private fun GenerateRecipeScaffold(
                     })
 
 
-                if (isAnyItemSelected) {
-                    // Button to initiate recipe generation process
-                    Button(
-                        modifier = Modifier
-                            .padding(16.dp)
-                            .fillMaxWidth(),
-                        onClick = viewModel::generateRecipe
-                    ) {
-                        Text(text = stringResource(id = R.string.generate_recipe))
+                AnimatedVisibility(visible = isAnyItemSelected) {
+                    // Column to arrange the button vertically within the AnimatedVisibility composable
+                    Column {
+                        // TextButton to initiate the recipe generation process
+                        TextButton(
+                            modifier = Modifier
+                                .padding(top = 16.dp, start = 16.dp, end = 16.dp)
+                                .fillMaxWidth(),
+                            onClick = {
+                                viewModel.clearAllSelection()
+                                isAnyItemSelected = false
+                            }
+                        ) {
+                            // Row to arrange the icon and text horizontally within the button
+                            Row(
+                                horizontalArrangement = Arrangement.spacedBy(4.dp),
+                                verticalAlignment = Alignment.CenterVertically
+                            ) {
+                                // Icon to represent the clear all action
+                                Icon(
+                                    imageVector = Icons.Filled.Close,
+                                    contentDescription = stringResource(id = R.string.clear_all),
+                                    tint = Color.Red
+                                )
+                                // Text to accompany the icon
+                                Text(
+                                    text = stringResource(id = R.string.clear_all),
+                                    color = Color.Red,
+                                    style = TextStyle(
+                                        fontWeight = FontWeight.Bold,
+                                        fontSize = TextUnit(16f, TextUnitType.Sp)
+                                    )
+                                )
+                            }
+                        }
                     }
                 }
-
-
             }
 
 

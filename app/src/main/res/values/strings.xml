@@ -8,6 +8,7 @@
     <string name="cooking_oil">Cooking Oil</string>
     <string name="dairy_products">Dairy Products</string>
     <string name="generate_recipe">Generate recipe</string>
+    <string name="clear_all">Clear All</string>
 
     <!-- home screen strings -->
     <string name="home_header">Not sure what to cook in %s?</string>
