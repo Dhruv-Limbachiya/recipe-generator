@@ -13,7 +13,9 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -87,22 +89,39 @@ private fun GenerateRecipeScaffold(
             GenerateRecipeAppBar(onCloseIconClick = onPop)
         }
     ) { paddingValues ->
+
+        var isAnyItemSelected by remember {
+            mutableStateOf(false)
+        }
+
         // Box composable for managing loading state or displaying content
         Box {
             // Column composable to arrange UI elements vertically with padding
             Column(modifier = Modifier.padding(paddingValues)) {
-                // Display the list of ingredients with checkboxes
-                Ingredients(modifier = modifier.weight(1f), ingredientsMap = staticIngredientsMap)
 
-                // Button to initiate recipe generation process
-                Button(
-                    modifier = Modifier
-                        .padding(16.dp)
-                        .fillMaxWidth(),
-                    onClick = viewModel::generateRecipe
-                ) {
-                    Text(text = stringResource(id = R.string.generate_recipe))
+                // Display the list of ingredients with checkboxes
+                Ingredients(
+                    modifier = modifier.weight(1f),
+                    ingredientsMap = staticIngredientsMap,
+                    onSelectionChange = {
+                        isAnyItemSelected =
+                            staticIngredientsMap.values.flatten().any { it.isSelected }
+                    })
+
+
+                if (isAnyItemSelected) {
+                    // Button to initiate recipe generation process
+                    Button(
+                        modifier = Modifier
+                            .padding(16.dp)
+                            .fillMaxWidth(),
+                        onClick = viewModel::generateRecipe
+                    ) {
+                        Text(text = stringResource(id = R.string.generate_recipe))
+                    }
                 }
+
+
             }
 
 
@@ -131,5 +150,8 @@ private fun GenerateRecipeScaffold(
 @Composable
 private fun GenerateRecipePreview() {
     val staticIngredient = GetStaticIngredient().invoke()
-    GenerateRecipeScaffold(staticIngredientsMap = staticIngredient, navigateToRecipeDetailScreen = {}, onPop = {})
+    GenerateRecipeScaffold(
+        staticIngredientsMap = staticIngredient,
+        navigateToRecipeDetailScreen = {},
+        onPop = {})
 }

@@ -13,11 +13,8 @@ import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.Check
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FilterChip
-import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SuggestionChip
 import androidx.compose.material3.Text
@@ -40,7 +37,8 @@ import com.dhruvv.recipegenerator.domain.usecases.GetStaticIngredient
 @Composable
 fun Ingredients(
     modifier: Modifier = Modifier,
-    ingredientsMap: Map<String, List<CheckableItem>> = mutableMapOf()
+    ingredientsMap: Map<String, List<CheckableItem>> = mutableMapOf(),
+    onSelectionChange: () -> Unit
 ) {
     // Remember the scroll state for the column
     val scrollState = rememberScrollState()
@@ -58,7 +56,7 @@ fun Ingredients(
             )
 
             // Manage the maximum number of lines for the flow row
-            var maxLines by remember { mutableIntStateOf(2) }
+            var maxLines by remember { mutableIntStateOf(3) }
 
             val moreOrCollapseIndicator = @Composable { scope: ContextualFlowRowOverflowScope ->
                 // Calculate remaining items and label for expand/collapse indicator
@@ -90,7 +88,7 @@ fun Ingredients(
                 itemCount = ingredientsMap[header]?.size ?: 0
             ) { index ->
                 // Display each ingredient chip
-                ingredientsMap[header]?.get(index)?.let { IngredientsChip(it) }
+                ingredientsMap[header]?.get(index)?.let { IngredientsChip(it,onSelectionChange) }
             }
         }
     }
@@ -98,7 +96,7 @@ fun Ingredients(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun IngredientsChip(checkableItem: CheckableItem) {
+fun IngredientsChip(checkableItem: CheckableItem, onSelectionChange: () -> Unit) {
     // Remember the selection state for the chip
     var isSelected by remember { mutableStateOf(false) }
 
@@ -110,13 +108,9 @@ fun IngredientsChip(checkableItem: CheckableItem) {
         onClick = {
             isSelected = !isSelected
             checkableItem.isSelected = isSelected
+            onSelectionChange()
         },
         label = { Text(text = extractMainName(checkableItem.title)) },
-        leadingIcon = if (isSelected) {
-            { Icon(imageVector = Icons.Rounded.Check, contentDescription = "Check") }
-        } else {
-            null
-        }
     )
 }
 
@@ -124,5 +118,5 @@ fun IngredientsChip(checkableItem: CheckableItem) {
 @Composable
 private fun IngredientsPreview() {
     val getStaticIngredient = GetStaticIngredient().invoke()
-    Ingredients(modifier = Modifier.fillMaxSize(), ingredientsMap = getStaticIngredient)
+    Ingredients(modifier = Modifier.fillMaxSize(), ingredientsMap = getStaticIngredient, onSelectionChange = {})
 }

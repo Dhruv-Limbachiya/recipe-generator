@@ -27,7 +27,6 @@ fun GenerateRecipeAppBar(
                 Icon(imageVector = Icons.Rounded.Close, contentDescription = "Close")
             }
         },
-        windowInsets = WindowInsets(left = 8.dp)
     )
 }
 
