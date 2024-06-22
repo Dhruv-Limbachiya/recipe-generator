@@ -15,10 +15,16 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.VerticalDivider
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.TextLayoutResult
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
@@ -61,6 +67,15 @@ fun Instruction(
 ) {
     // Iterate through each instruction, including its index
     instructions.forEachIndexed { index, apiInstruction ->
+
+        var textLayoutResult by remember {
+            mutableStateOf<TextLayoutResult?>(null)
+        }
+
+        var linesUsed by remember {
+            mutableIntStateOf(0)
+        }
+
         Row(
             verticalAlignment = Alignment.Top,
         ) {
@@ -68,13 +83,21 @@ fun Instruction(
             Stepper(
                 modifier = Modifier.padding(top = 4.dp),
                 isLastItem = index == instructions.size - 1,
+                linesUsed = linesUsed
             )
             Spacer(modifier = Modifier.width(20.dp))
             // Display the instruction step text
             Text(
                 text = apiInstruction.step,
                 modifier = Modifier.padding(vertical = 0.dp),
+                onTextLayout = { result ->
+                    textLayoutResult = result
+                }
             )
+
+            textLayoutResult?.let {
+                linesUsed = it.lineCount
+            }
         }
     }
 }
@@ -88,8 +111,15 @@ fun Instruction(
 @Composable
 fun Stepper(
     modifier: Modifier = Modifier,
-    isLastItem: Boolean
+    isLastItem: Boolean,
+    linesUsed: Int
 ) {
+    val height = when(linesUsed) {
+        in 1..2 -> 50.dp
+        3 -> 70.dp
+        in 4..5 -> 90.dp
+        else -> 100.dp
+    }
     Column(
         modifier = modifier,
         verticalArrangement = Arrangement.Center,
@@ -110,7 +140,7 @@ fun Stepper(
             VerticalDivider(
                 modifier = Modifier
                     .padding(top = 4.dp)
-                    .height(70.dp),
+                    .height(height),
                 thickness = 1.5.dp
             )
         }
