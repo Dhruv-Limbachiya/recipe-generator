@@ -125,22 +125,28 @@ fun RecipeDetailScaffold(
                             RecipeIngredient(ingredients = recipe.apiIngredients)
                         }
                         item {
-                            Spacer(modifier = Modifier.height(20.dp))
+                            Spacer(modifier = Modifier.height(16.dp))
                         }
                         item {
-                            RecipeInstruction(instructions = recipe.apiInstructions)
+                            if (recipe.apiInstructions.isNotEmpty()) {
+                                RecipeInstruction(instructions = recipe.apiInstructions)
+                            }
                         }
                         item {
-                            Spacer(modifier = Modifier.height(20.dp))
+                            Spacer(modifier = Modifier.height(16.dp))
                         }
                         item {
-                            RecipeTip(tips = recipe.tips)
+                            if (recipe.tips.isNotEmpty()) {
+                                RecipeTip(tips = recipe.tips)
+                            }
                         }
                         item {
-                            Spacer(modifier = Modifier.height(20.dp))
+                            Spacer(modifier = Modifier.height(16.dp))
                         }
                         item {
-                            RecipeVariation(variations = recipe.apiVariations)
+                            if (recipe.apiVariations.isNotEmpty()) {
+                                RecipeVariation(variations = recipe.apiVariations)
+                            }
                         }
                     }
                 }

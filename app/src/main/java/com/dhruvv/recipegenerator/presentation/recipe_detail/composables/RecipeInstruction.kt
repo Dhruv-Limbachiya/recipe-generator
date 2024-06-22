@@ -19,6 +19,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -40,7 +41,7 @@ fun RecipeInstruction(
         // Display the "Instructions" header text
         Text(
             text = stringResource(id = R.string.instructions),
-            style = MaterialTheme.typography.titleMedium
+            style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold)
         )
         // Add spacing between the header and the instructions list
         Spacer(modifier = Modifier.height(6.dp))
@@ -109,7 +110,7 @@ fun Stepper(
             VerticalDivider(
                 modifier = Modifier
                     .padding(top = 4.dp)
-                    .height(50.dp),
+                    .height(70.dp),
                 thickness = 1.5.dp
             )
         }

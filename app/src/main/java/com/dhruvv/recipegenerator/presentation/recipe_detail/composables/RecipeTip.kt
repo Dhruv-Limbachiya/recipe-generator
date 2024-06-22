@@ -17,6 +17,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -37,7 +38,7 @@ fun RecipeTip(
         // Display the "Tips" header text
         Text(
             text = stringResource(id = R.string.tips),
-            style = MaterialTheme.typography.titleMedium
+            style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold)
         )
         // Add spacing between the header and the tips list
         Spacer(modifier = Modifier.height(6.dp))
@@ -63,14 +64,15 @@ fun Tip(
             // Create a circular bullet point for each tip
             Box(
                 modifier = Modifier
-                    .padding(top = 4.dp)
+                    .padding(top = 6.dp)
                     .size(8.dp)
                     .clip(CircleShape)
                     .background(color = MaterialTheme.colorScheme.onBackground)
             )
             Spacer(modifier = Modifier.width(20.dp))
             // Display the tip text
-            Text(text = tip)
+            Text(text = tip, modifier = Modifier.padding(bottom = 10.dp)
+            )
         }
     }
 }

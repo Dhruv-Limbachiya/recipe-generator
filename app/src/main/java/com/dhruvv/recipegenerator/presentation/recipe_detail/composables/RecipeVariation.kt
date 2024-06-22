@@ -17,6 +17,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -38,7 +39,7 @@ fun RecipeVariation(
         // Display the "Variations" header text
         Text(
             text = stringResource(id = R.string.variations),
-            style = MaterialTheme.typography.titleMedium
+            style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold)
         )
         // Add spacing between the header and the variations list
         Spacer(modifier = Modifier.height(6.dp))
@@ -64,16 +65,17 @@ fun Variation(
             // Create a circular bullet point for each variation
             Box(
                 modifier = Modifier
-                    .padding(top = 4.dp)
+                    .padding(top = 6.dp)
                     .size(8.dp)
                     .clip(CircleShape)
                     .background(color = MaterialTheme.colorScheme.onBackground)
             )
             Spacer(modifier = Modifier.width(20.dp))
             // Create a formatted string for each variation
-            val variationString = "${variation.name}: ${variation.description}"
+            val variationString = "${variation.name} : ${variation.description}"
             // Display the variation string
-            Text(text = variationString)
+            Text(text = variationString, modifier = Modifier.padding(bottom = 10.dp)
+            )
         }
     }
 }
