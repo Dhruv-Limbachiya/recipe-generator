@@ -156,6 +156,16 @@ private fun GenerateRecipeScaffold(
                                 )
                             }
                         }
+
+                        // Button to initiate recipe generation process
+                        Button(
+                            modifier = Modifier
+                                .padding(start = 16.dp, end = 16.dp, bottom = 16.dp)
+                                .fillMaxWidth(),
+                            onClick = viewModel::generateRecipe
+                        ) {
+                            Text(text = stringResource(id = R.string.generate_recipe))
+                        }
                     }
                 }
             }
