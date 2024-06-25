@@ -8,6 +8,7 @@ import com.dhruvv.recipegenerator.common.util.Resource
 import com.dhruvv.recipegenerator.domain.usecases.UseCase
 import com.dhruvv.recipegenerator.presentation.home.HomeState.Companion.INVALID_HOME_STATE
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -31,11 +32,16 @@ class HomeViewModel @Inject constructor(
     // Public immutable state exposed to the UI
     val homeState: State<HomeState> = _homeState
 
+
+    init {
+        getGenerateRecipes()
+    }
+
     /**
      * Initiates the generation of recipes by invoking the use case.
      * It collects the results emitted by the use case and updates the UI state accordingly.
      */
-    fun getGenerateRecipes() = viewModelScope.launch {
+    private fun getGenerateRecipes() = viewModelScope.launch(Dispatchers.IO) {
         // Launches a coroutine in the ViewModel's scope for background processing
         // Calls the use case to generate recipes
         val generatedRecipes = useCase.generatedRecipes()
@@ -51,7 +57,8 @@ class HomeViewModel @Inject constructor(
                     updateHomeState(
                         _homeState.value.copy(
                             generatedRecipes = mutableListOf(),
-                            showNoRecipeGenerated = true
+                            showNoRecipeGenerated = true,
+                            isLoading = false
                         ),
                     )
 
@@ -63,7 +70,8 @@ class HomeViewModel @Inject constructor(
                     updateHomeState(
                         _homeState.value.copy(
                             generatedRecipes = mutableListOf(),
-                            showNoRecipeGenerated = true
+                            showNoRecipeGenerated = false,
+                            isLoading = true
                         ),
                     )
 
@@ -77,7 +85,8 @@ class HomeViewModel @Inject constructor(
                     updateHomeState(
                         _homeState.value.copy(
                             generatedRecipes = resource.data ?: mutableListOf(),
-                            showNoRecipeGenerated = false
+                            showNoRecipeGenerated = false,
+                            isLoading = false
                         ),
                     )
             }

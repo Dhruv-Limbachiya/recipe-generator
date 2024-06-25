@@ -10,7 +10,8 @@ import com.dhruvv.recipegenerator.data.model.Recipe
  */
 data class HomeState(
     val generatedRecipes: List<Recipe> = mutableListOf(),
-    val showNoRecipeGenerated: Boolean = true
+    val showNoRecipeGenerated: Boolean = true,
+    val isLoading: Boolean = false
 ) {
     companion object {
         /**
