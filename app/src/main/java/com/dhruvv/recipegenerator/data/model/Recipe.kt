@@ -1,6 +1,8 @@
 package com.dhruvv.recipegenerator.data.model
 
+import com.dhruvv.recipegenerator.common.util.toDate
 import com.dhruvv.recipegenerator.data.api.model.ApiRecipe
+import com.dhruvv.recipegenerator.data.db.entities.RecipeEntity
 
 /**
  * Represents a recipe object.
@@ -13,6 +15,7 @@ data class Recipe(
     val id: Int = -1,
     val apiRecipe: ApiRecipe = ApiRecipe.INVALID_API_RECIPE,
     val generatedAt: String = "",
+    val isSaved: Int = 0
 ) {
     companion object {
         /**

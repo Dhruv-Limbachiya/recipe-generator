@@ -49,5 +49,6 @@ fun ApiRecipe.toRecipeEntity(): RecipeEntity {
         id = 0,
         apiRecipe = this,
         generatedAt = System.currentTimeMillis().toDate(),
+        isSaved = 0
     )
 }

@@ -44,6 +44,32 @@ class RecipeDetailViewModel @Inject constructor(
         }
     }
 
+    fun saveRecipe(id: Int) = viewModelScope.launch {
+        val updateRecipeResource = useCase.saveRecipe(recipeId = id, isSaved = 1)
+        updateRecipeResource.collectLatest { resource ->
+            when (resource) {
+                is Resource.Loading -> updateRecipeState(_recipeDetailState.value.copy(isLoading = true))
+                is Resource.Error -> updateRecipeState(
+                    _recipeDetailState.value.copy(
+                        isLoading = false,
+                        recipe = Recipe.INVALID_RECIPE,
+                        error = resource.message ?: "",
+                        isRecipeSaved = false
+                    )
+                )
+
+                is Resource.Success -> updateRecipeState(
+                    _recipeDetailState.value.copy(
+                        isLoading = false,
+                        isRecipeSaved = true
+                    )
+                )
+            }
+        }
+    }
+
+
+
     private fun updateRecipeState(recipeDetailState: RecipeDetailState) {
         _recipeDetailState.value = recipeDetailState
     }

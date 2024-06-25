@@ -90,4 +90,21 @@ class RecipeRepoImpl(
             }
         }
     }
+
+
+    override fun updateRecipe(id: Int,isSaved: Int): Flow<Resource<Int>> {
+        return flow {
+            emit(Resource.Loading())
+            try {
+                val rowsAffected = recipeDao.updateRecipe(id, isSaved)
+                if (rowsAffected != null && rowsAffected != 0) {
+                    emit(Resource.Success(rowsAffected))
+                } else {
+                    emit(Resource.Error("Uh-oh, we failed to save that recipe!🍲"))
+                }
+            } catch (e: Exception) {
+                emit(Resource.Error(e.message))
+            }
+        }
+    }
 }

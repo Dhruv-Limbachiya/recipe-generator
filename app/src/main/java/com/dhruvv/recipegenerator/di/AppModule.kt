@@ -14,6 +14,7 @@ import com.dhruvv.recipegenerator.domain.usecases.GenerateRecipe
 import com.dhruvv.recipegenerator.domain.usecases.GetGeneratedRecipes
 import com.dhruvv.recipegenerator.domain.usecases.GetRecipeById
 import com.dhruvv.recipegenerator.domain.usecases.GetStaticIngredient
+import com.dhruvv.recipegenerator.domain.usecases.SaveRecipe
 import com.dhruvv.recipegenerator.domain.usecases.UseCase
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
@@ -100,6 +101,7 @@ object AppModule {
             GenerateRecipe(recipeRepo),
             GetStaticIngredient(),
             GetGeneratedRecipes(recipeRepo),
-            GetRecipeById(recipeRepo)
+            GetRecipeById(recipeRepo),
+            SaveRecipe(recipeRepo)
         )
 }

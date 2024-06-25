@@ -2,30 +2,47 @@ package com.dhruvv.recipegenerator.presentation.recipe_detail
 
 import android.widget.Toast
 import androidx.activity.compose.BackHandler
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.ArrowBack
+import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.dhruvv.recipegenerator.R
 import com.dhruvv.recipegenerator.presentation.recipe_detail.composables.RecipeIngredient
 import com.dhruvv.recipegenerator.presentation.recipe_detail.composables.RecipeInstruction
 import com.dhruvv.recipegenerator.presentation.recipe_detail.composables.RecipeTip
@@ -118,34 +135,69 @@ fun RecipeDetailScaffold(
                 }
 
                 else -> {
-                    // Display recipe details in a LazyColumn
-                    val recipe = recipeDetailState.recipe.apiRecipe
-                    LazyColumn {
-                        item {
-                            RecipeIngredient(ingredients = recipe.apiIngredients)
-                        }
-                        item {
-                            Spacer(modifier = Modifier.height(16.dp))
-                        }
-                        item {
-                            if (recipe.apiInstructions.isNotEmpty()) {
-                                RecipeInstruction(instructions = recipe.apiInstructions)
+
+                    var isSaved by remember {
+                        mutableStateOf(false)
+                    }
+
+                    if (recipeDetailState.isRecipeSaved) {
+                        isSaved = true
+                        Toast.makeText(LocalContext.current, "Recipe Saved!", Toast.LENGTH_SHORT)
+                            .show()
+                    }
+
+                    Box {
+                        // Display recipe details in a LazyColumn
+                        val recipe = recipeDetailState.recipe.apiRecipe
+                        LazyColumn() {
+                            item {
+                                RecipeIngredient(ingredients = recipe.apiIngredients)
+                            }
+                            item {
+                                if (recipe.apiInstructions.isNotEmpty()) {
+                                    RecipeInstruction(instructions = recipe.apiInstructions)
+                                }
+                            }
+                            item {
+                                if (recipe.tips.isNotEmpty()) {
+                                    RecipeTip(tips = recipe.tips)
+                                }
+                            }
+                            item {
+                                if (recipe.apiVariations.isNotEmpty()) {
+                                    RecipeVariation(variations = recipe.apiVariations)
+                                }
+                            }
+                            item {
+                                Spacer(modifier = Modifier.height(70.dp))
                             }
                         }
-                        item {
-                            Spacer(modifier = Modifier.height(16.dp))
-                        }
-                        item {
-                            if (recipe.tips.isNotEmpty()) {
-                                RecipeTip(tips = recipe.tips)
-                            }
-                        }
-                        item {
-                            Spacer(modifier = Modifier.height(16.dp))
-                        }
-                        item {
-                            if (recipe.apiVariations.isNotEmpty()) {
-                                RecipeVariation(variations = recipe.apiVariations)
+
+                        Button(modifier = Modifier
+                            .align(Alignment.BottomCenter)
+                            .fillMaxWidth()
+                            .background(Color.White)
+                            .padding(16.dp), onClick = {
+                            recipeDetailViewModel.saveRecipe(recipeId)
+                        }) {
+                            Row(
+                                verticalAlignment = Alignment.CenterVertically
+                            ) {
+                                Icon(
+                                    modifier = Modifier
+                                        .size(24.dp),
+                                    painter = painterResource(id = if (isSaved) R.drawable.ic_filled_saved_vector else R.drawable.ic_save_vector),
+                                    contentDescription = "Save Recipe",
+                                    tint = MaterialTheme.colorScheme.onTertiary
+                                )
+                                Spacer(modifier = Modifier.width(8.dp))
+                                Text(
+                                    text = stringResource(id = R.string.save_recipe),
+                                    style = MaterialTheme.typography.labelLarge.copy(
+                                        fontSize = 16.sp,
+                                        fontWeight = FontWeight(600)
+                                    )
+                                )
                             }
                         }
                     }

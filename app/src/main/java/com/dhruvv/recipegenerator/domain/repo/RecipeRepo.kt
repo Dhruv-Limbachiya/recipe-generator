@@ -10,4 +10,6 @@ interface RecipeRepo {
     fun getRecipes(): Flow<Resource<List<Recipe>>>
 
     fun getRecipe(id: Int): Flow<Resource<Recipe>>
+
+    fun updateRecipe(id: Int,isSaved: Int) : Flow<Resource<Int>>
 }

@@ -19,8 +19,11 @@ data class RecipeEntity(
     // Column to store the timestamp of when the recipe was generated
     @ColumnInfo(name = "generate_at")
     val generatedAt: String,
+
+    @ColumnInfo(name = "is_saved")
+    val isSaved: Int
 )
 
 fun RecipeEntity.toRecipeUIModel(): Recipe {
-    return Recipe(id, apiRecipe, generatedAt)
+    return Recipe(id, apiRecipe, generatedAt,isSaved)
 }

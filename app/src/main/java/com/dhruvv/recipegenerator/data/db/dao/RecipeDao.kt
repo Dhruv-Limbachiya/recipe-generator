@@ -5,6 +5,7 @@ import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import androidx.room.Update
 import com.dhruvv.recipegenerator.data.db.entities.RecipeEntity
 
 @Dao
@@ -24,4 +25,8 @@ interface RecipeDao {
     // Deletes a specific recipe from the database and returns the number of rows affected.
     @Delete
     suspend fun deleteExpense(recipeEntity: RecipeEntity): Int
+
+    // Updates a specific recipe in the database and returns the number of rows affected.
+    @Query("UPDATE recipe SET is_saved=:isSaved WHERE id=:id")
+    suspend fun updateRecipe(id: Int,isSaved: Int): Int
 }
