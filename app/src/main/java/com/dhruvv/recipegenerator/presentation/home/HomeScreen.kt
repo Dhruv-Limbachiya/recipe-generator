@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -89,7 +90,10 @@ private fun HomeScaffold(
                         verticalArrangement = Arrangement.spacedBy(4.dp)
                     ) {
                         Row(
-                            modifier = Modifier.fillMaxWidth().padding(top = 16.dp).padding(horizontal = 16.dp),
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(top = 16.dp)
+                                .padding(horizontal = 16.dp),
                             horizontalArrangement = Arrangement.SpaceBetween,
                             verticalAlignment = Alignment.CenterVertically
                         ) {
@@ -98,18 +102,17 @@ private fun HomeScaffold(
                                 style = MaterialTheme.typography.titleLarge
                             )
 
+
                             Box(
-                                modifier =
-                                Modifier
+                                modifier = Modifier
                                     .shadow(shape = RoundedCornerShape(20.dp), elevation = 1.dp)
-                                    .background(MaterialTheme.colorScheme.primaryContainer),
+                                    .background(MaterialTheme.colorScheme.primaryContainer)
+                                    .clickable {  },
                             ) {
                                 Text(
                                     modifier =
                                     Modifier
-                                        .padding(horizontal = 10.dp, vertical = 4.dp)
-                                        .clickable {
-                                        },
+                                        .padding(horizontal = 10.dp, vertical = 4.dp),
                                     text = stringResource(R.string.show_all),
                                     color = MaterialTheme.colorScheme.onPrimaryContainer,
                                     fontSize = 12.sp,
