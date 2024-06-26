@@ -5,4 +5,5 @@ object Route {
     const val GENERATE_RECIPE = "generate_recipe"
     const val RECIPES = "recipes"
     const val RECIPE_DETAIL = "recipe_detail"
+    const val RECIPE_LIST = "recipe_list"
 }

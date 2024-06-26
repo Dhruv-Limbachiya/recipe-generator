@@ -11,6 +11,7 @@ import androidx.navigation.navArgument
 import com.dhruvv.recipegenerator.presentation.generate_recipe.GenerateRecipeScreen
 import com.dhruvv.recipegenerator.presentation.home.HomeScreen
 import com.dhruvv.recipegenerator.presentation.recipe_detail.RecipeDetailScreen
+import com.dhruvv.recipegenerator.presentation.recipes.RecipeListScreen
 
 /**
  * Composable function representing the navigation host for the entire application.
@@ -30,10 +31,13 @@ fun AppNavHost(
     ) {
         // Composable for the HomeScreen destination
         composable(route = Destination.HomeScreen.route) {
-            HomeScreen {
+            HomeScreen(navigateToGenerateRecipeScreen = {
                 // Callback to navigate to the GenerateRecipeScreen
                 navHostController.navigate(Destination.GenerateRecipeScreen.route)
-            }
+            }, navigateToRecipeListScreen = {
+                // Callback to navigate to the RecipeListScreen
+                navHostController.navigate(Destination.RecipeListScreen.route)
+            })
         }
 
         // Composable for the GenerateRecipeScreen destination
@@ -64,6 +68,13 @@ fun AppNavHost(
             RecipeDetailScreen(recipeId = recipeId, onPop =  {
                 navHostController.popBackStack()
             })
+        }
+
+        // Composable for the RecipeListScreen destination
+        composable(route = Destination.RecipeListScreen.route) {
+            RecipeListScreen {
+                navHostController.popBackStack()
+            }
         }
     }
 }

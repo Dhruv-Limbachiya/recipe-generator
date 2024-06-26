@@ -1,4 +1,4 @@
-package com.dhruvv.recipegenerator.presentation.recipes
+package com.dhruvv.recipegenerator.presentation.recipes.composables
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
@@ -13,7 +13,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.dhruvv.recipegenerator.data.api.model.ApiRecipe
 import com.dhruvv.recipegenerator.data.model.Recipe
-import com.dhruvv.recipegenerator.presentation.recipes.composables.RecipeItem
 
 @Composable
 fun RecipesList(
@@ -27,7 +26,7 @@ fun RecipesList(
     LazyColumn(
         modifier = modifier,
         state = scrollState,
-        contentPadding = PaddingValues(16.dp),
+        contentPadding = PaddingValues(start = 16.dp, end = 16.dp, bottom = 16.dp),
         verticalArrangement = Arrangement.spacedBy(8.dp),
     ) {
         if(showNoOfRecipes != 0) {

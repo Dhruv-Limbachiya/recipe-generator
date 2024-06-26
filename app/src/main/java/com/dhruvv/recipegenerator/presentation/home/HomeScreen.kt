@@ -34,7 +34,7 @@ import com.dhruvv.recipegenerator.presentation.common.NoRecipeFound
 import com.dhruvv.recipegenerator.presentation.home.composables.BottomNavBar
 import com.dhruvv.recipegenerator.presentation.home.composables.GetStartedBox
 import com.dhruvv.recipegenerator.presentation.home.composables.HomeHeader
-import com.dhruvv.recipegenerator.presentation.recipes.RecipesList
+import com.dhruvv.recipegenerator.presentation.recipes.composables.RecipesList
 
 
 /**
@@ -45,10 +45,11 @@ import com.dhruvv.recipegenerator.presentation.recipes.RecipesList
  */
 @Composable
 fun HomeScreen(
-    navigateToGenerateRecipeScreen: () -> Unit
+    navigateToGenerateRecipeScreen: () -> Unit,
+    navigateToRecipeListScreen: () -> Unit
 ) {
     // Render the HomeScaffold passing the navigateToGenerateRecipeScreen callback
-    HomeScaffold(navigateToGenerateRecipeScreen)
+    HomeScaffold(navigateToGenerateRecipeScreen,navigateToRecipeListScreen)
 }
 
 /**
@@ -59,7 +60,8 @@ fun HomeScreen(
  */
 @Composable
 private fun HomeScaffold(
-    navigateToGenerateRecipeScreen: () -> Unit
+    navigateToGenerateRecipeScreen: () -> Unit,
+    navigateToRecipeListScreen: () -> Unit
 ) {
     val viewModel: HomeViewModel = hiltViewModel()
 
@@ -127,7 +129,9 @@ private fun HomeScaffold(
                                 modifier = Modifier
                                     .shadow(shape = RoundedCornerShape(20.dp), elevation = 1.dp)
                                     .background(MaterialTheme.colorScheme.primaryContainer)
-                                    .clickable { },
+                                    .clickable {
+                                        navigateToRecipeListScreen()
+                                    },
                             ) {
                                 Text(
                                     modifier =
@@ -160,5 +164,5 @@ private fun HomeScaffold(
 @Preview(showSystemUi = true, device = Devices.PIXEL_5, uiMode = Configuration.UI_MODE_NIGHT_YES)
 @Composable
 private fun HomeScreenPreview() {
-    HomeScaffold({})
+    HomeScaffold(navigateToGenerateRecipeScreen = {}, navigateToRecipeListScreen = {})
 }

@@ -31,6 +31,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
@@ -81,7 +82,7 @@ fun RecipeItem(
             content = {
                 Card(
                     modifier = Modifier
-                        .fillMaxWidth(),
+                        .fillMaxWidth().clip(RoundedCornerShape(20.dp)),
                     shape = RoundedCornerShape(20.dp),
                 ) {
                     Column(
@@ -93,14 +94,20 @@ fun RecipeItem(
                     ) {
                         recipe.apiRecipe.name?.let {
                             Text(
-                                modifier = Modifier.padding(top = 10.dp, start = 12.dp, end = 12.dp),
+                                modifier = Modifier.padding(top = 10.dp, start = 12.dp, end = 12.dp)
+                                    .fillMaxWidth(),
                                 text = it,
-                                style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold, color = MaterialTheme.colorScheme.primary)
+                                maxLines = 1,
+                                overflow = TextOverflow.Ellipsis,
+                                style = MaterialTheme.typography.titleMedium.copy(
+                                    fontWeight = FontWeight.Bold,
+                                    color = MaterialTheme.colorScheme.primary
+                                )
                             )
                         }
                         Text(
-                            modifier = Modifier.padding( start = 12.dp, end = 12.dp, bottom = 12.dp),
-                            text = if(recipe.apiRecipe.details.isNullOrEmpty()) "No Details Found" else recipe.apiRecipe.details,
+                            modifier = Modifier.padding(start = 12.dp, end = 12.dp, bottom = 12.dp),
+                            text = if (recipe.apiRecipe.details.isNullOrEmpty()) "No Details Found" else recipe.apiRecipe.details,
                             style = MaterialTheme.typography.bodyMedium,
                             maxLines = 2,
                             overflow = TextOverflow.Ellipsis
@@ -145,15 +152,15 @@ fun SwipedBackgroundContent(dismissState: SwipeToDismissBoxState) {
 @Preview(showSystemUi = true, device = Devices.PIXEL_5)
 @Composable
 private fun RecipeItemPreview() {
-   RecipeItem(recipe = Recipe(
-       id = 3,
-       apiRecipe = ApiRecipe(
-           name = "Vegetable Stir Fry",
-           details = "No Details Found"
-       ),
-       generatedAt = "2024-06-25T14:00:00Z",
-       isSaved = 1
-   ), onRecipeClicked = {} ) {
-       
-   }
+    RecipeItem(recipe = Recipe(
+        id = 3,
+        apiRecipe = ApiRecipe(
+            name = "Vegetable Stir Fry",
+            details = "No Details Found"
+        ),
+        generatedAt = "2024-06-25T14:00:00Z",
+        isSaved = 1
+    ), onRecipeClicked = {}) {
+
+    }
 }
