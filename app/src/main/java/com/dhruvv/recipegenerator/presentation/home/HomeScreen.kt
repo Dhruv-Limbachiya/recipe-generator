@@ -1,6 +1,7 @@
 package com.dhruvv.recipegenerator.presentation.home
 
 import android.content.res.Configuration
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -9,13 +10,14 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -29,6 +31,7 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.dhruvv.recipegenerator.R
 import com.dhruvv.recipegenerator.presentation.common.NoRecipeFound
+import com.dhruvv.recipegenerator.presentation.home.composables.BottomNavBar
 import com.dhruvv.recipegenerator.presentation.home.composables.GetStartedBox
 import com.dhruvv.recipegenerator.presentation.home.composables.HomeHeader
 import com.dhruvv.recipegenerator.presentation.recipes.RecipesList
@@ -63,8 +66,25 @@ private fun HomeScaffold(
     // Observe the recipe detail state
     val homeState by remember { viewModel.homeState }
 
-    // Scaffold provides a basic material design structure with padding
-    Scaffold { paddingValues ->
+    val scrollState = rememberLazyListState()
+
+    val shouldHideBottomBar by remember(scrollState) {
+        derivedStateOf { scrollState.lastScrolledBackward || scrollState.firstVisibleItemIndex == 0 }
+    }
+        // Scaffold provides a basic material design structure with padding
+    Scaffold(
+        bottomBar = {
+            AnimatedVisibility(
+                visible = shouldHideBottomBar,
+//                enter  = fadeIn() + slideInVertically (),
+//                exit = slideOutVertically () + fadeOut() ,
+                content =  {
+                    BottomNavBar(navItems = viewModel.getNavItems()) {
+
+                    }
+                })
+        }
+    ) { paddingValues ->
         Column(modifier = Modifier.padding(paddingValues)) {
             // Display the header of the Home screen
             HomeHeader()
@@ -107,7 +127,7 @@ private fun HomeScaffold(
                                 modifier = Modifier
                                     .shadow(shape = RoundedCornerShape(20.dp), elevation = 1.dp)
                                     .background(MaterialTheme.colorScheme.primaryContainer)
-                                    .clickable {  },
+                                    .clickable { },
                             ) {
                                 Text(
                                     modifier =
@@ -121,8 +141,9 @@ private fun HomeScaffold(
                         }
 
                         RecipesList(
-                            recipes = homeState.generatedRecipes,
-                            showNoOfRecipes = 7,
+                            recipes = homeState.generatedRecipes.plus(homeState.generatedRecipes),
+                            showNoOfRecipes = 17,
+                            scrollState = scrollState,
                             onRecipeClicked = {},
                             onRecipeDelete = {})
                     }
