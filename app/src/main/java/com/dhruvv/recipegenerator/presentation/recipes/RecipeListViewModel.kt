@@ -28,7 +28,7 @@ class RecipeListViewModel @Inject constructor(
      * Initiates the generation of recipes by invoking the use case.
      * It collects the results emitted by the use case and updates the UI state accordingly.
      */
-    private fun getGenerateRecipes() = viewModelScope.launch(Dispatchers.IO) {
+    fun getGenerateRecipes() = viewModelScope.launch(Dispatchers.IO) {
         // Launches a coroutine in the ViewModel's scope for background processing
         // Calls the use case to generate recipes
         val generatedRecipes = useCase.generatedRecipes()

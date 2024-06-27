@@ -15,6 +15,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
@@ -36,7 +37,14 @@ fun RecipeListScreen(
     onBackIconClick: () -> Unit
 ) {
     val recipeListState by remember { viewModel.recipeListState }
-    RecipeListScaffold(modifier = modifier, recipeListState = recipeListState, onBackIconClick = onBackIconClick)
+    LaunchedEffect(key1 = Unit) {
+        viewModel.getGenerateRecipes()
+    }
+    RecipeListScaffold(
+        modifier = modifier,
+        recipeListState = recipeListState,
+        onBackIconClick = onBackIconClick
+    )
 }
 
 @OptIn(ExperimentalMaterial3Api::class)

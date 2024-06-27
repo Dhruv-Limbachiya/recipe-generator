@@ -1,11 +1,16 @@
 package com.dhruvv.recipegenerator.presentation.main
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Devices
@@ -30,16 +35,24 @@ fun RecipeGeneratorMain(modifier: Modifier = Modifier) {
         modifier = Modifier.fillMaxSize(),
         color = MaterialTheme.colorScheme.background,
     ) {
-       val navHostController: NavHostController = rememberNavController()
-
+        val navHostController: NavHostController = rememberNavController()
+        var showBottomBar by remember {
+            mutableStateOf(true)
+        }
+        navHostController.addOnDestinationChangedListener { controller, destination, _ ->
+            showBottomBar =
+                destination.route == Route.HOME_SCREEN || destination.route == Route.RECIPE_LIST || destination.route == Route.SAVED_RECIPE_LIST
+        }
 
         // Surface provides a background color for the entire screen
-        Scaffold(modifier = Modifier.fillMaxSize(),       bottomBar = {
-            BottomNavBar(navItems = getNavItems(), navController = navHostController)
+        Scaffold(modifier = Modifier.fillMaxSize(), bottomBar = {
+            AnimatedVisibility(visible = showBottomBar) {
+                BottomNavBar(navItems = getNavItems(), navController = navHostController)
+            }
         }) { innerPadding ->
             // Scaffold sets up the basic material design structure
             // AppNavHost manages navigation between different screens
-            AppNavHost(modifier.padding(innerPadding),navHostController)
+            AppNavHost(modifier.padding(innerPadding), navHostController)
         }
     }
 }
