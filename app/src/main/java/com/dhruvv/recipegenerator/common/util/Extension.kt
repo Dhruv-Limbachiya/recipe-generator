@@ -1,6 +1,7 @@
 package com.dhruvv.recipegenerator.common.util
 
 import android.os.Build
+import android.util.Log
 import java.text.SimpleDateFormat
 import java.time.LocalDate
 import java.util.Calendar
@@ -42,4 +43,18 @@ fun getCalendarDate(): String {
 
     // Format the date as "yyyy-MM-dd" using String.format
     return String.format("%04d-%02d-%02d", year, month, day)
+}
+
+
+fun formatDate(dateString: String,format: String = "dd MMM"): String {
+    try {
+        val inputFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+        val outputFormat = SimpleDateFormat(format, Locale.getDefault())
+        val dateTime = inputFormat.parse(dateString)
+        val outputDate = dateTime?.let { outputFormat.format(it) }
+        return outputDate ?: ""
+    }catch (e:Exception) {
+        Log.e("Extension", "formatDate: ", e)
+    }
+    return ""
 }

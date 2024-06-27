@@ -4,14 +4,17 @@ import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.spring
 import androidx.compose.animation.fadeOut
+import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
@@ -33,12 +36,15 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import com.dhruvv.recipegenerator.common.util.formatDate
 import com.dhruvv.recipegenerator.data.api.model.ApiRecipe
 import com.dhruvv.recipegenerator.data.model.Recipe
 
@@ -92,26 +98,65 @@ fun RecipeItem(
                         verticalArrangement = Arrangement.Center,
                         horizontalAlignment = Alignment.Start,
                     ) {
+                        Row(
+                            modifier = Modifier.padding(top = 12.dp),
+                            verticalAlignment = Alignment.CenterVertically,
+                            horizontalArrangement = Arrangement.spacedBy(6.dp)
+                        ) {
+                            val ingredients = recipe.apiRecipe.apiIngredients
+                            var ingredientsText = "6 ingredients"
+                            if(ingredients.isNotEmpty()) {
+                                ingredientsText = "${ingredients.size} ingredients"
+                            }
+
+                            Text(
+                                modifier = Modifier.padding(start = 12.dp),
+                                text = ingredientsText,
+                                style = MaterialTheme.typography.bodyMedium.copy(color = Color.Gray),
+                                maxLines = 2,
+                                overflow = TextOverflow.Ellipsis
+                            )
+
+                            Canvas(modifier = Modifier.size(4.dp)) {
+                                val centerX = size.width / 2f
+                                val centerY = size.height / 2f
+                                val radius = size.minDimension / 2f
+
+                                drawCircle(
+                                    color = Color.Gray, // Set the color of the circle
+                                    radius = radius,
+                                    center = Offset(centerX, centerY)
+                                )
+                            }
+
+                            Text(
+                                text = formatDate(recipe.generatedAt),
+                                style = MaterialTheme.typography.bodyMedium.copy(color = Color.Gray),
+                                maxLines = 2,
+                                overflow = TextOverflow.Ellipsis
+                            )
+                        }
+
                         recipe.apiRecipe.name?.let {
                             Text(
-                                modifier = Modifier.padding(top = 10.dp, start = 12.dp, end = 12.dp)
+                                modifier = Modifier
+                                    .padding(
+                                        top = 4.dp,
+                                        start = 12.dp,
+                                        end = 12.dp,
+                                        bottom = 12.dp
+                                    )
                                     .fillMaxWidth(),
                                 text = it,
-                                maxLines = 1,
+                                maxLines = 2,
                                 overflow = TextOverflow.Ellipsis,
                                 style = MaterialTheme.typography.titleMedium.copy(
                                     fontWeight = FontWeight.Bold,
+                                    fontSize = 20.sp,
                                     color = MaterialTheme.colorScheme.primary
                                 )
                             )
                         }
-                        Text(
-                            modifier = Modifier.padding(start = 12.dp, end = 12.dp, bottom = 12.dp),
-                            text = if (recipe.apiRecipe.details.isNullOrEmpty()) "No Details Found" else recipe.apiRecipe.details,
-                            style = MaterialTheme.typography.bodyMedium,
-                            maxLines = 2,
-                            overflow = TextOverflow.Ellipsis
-                        )
                     }
                 }
             })
@@ -155,7 +200,7 @@ private fun RecipeItemPreview() {
     RecipeItem(recipe = Recipe(
         id = 3,
         apiRecipe = ApiRecipe(
-            name = "Vegetable Stir Fry",
+            name = "Vegetable Stir Fry ",
             details = "No Details Found"
         ),
         generatedAt = "2024-06-25T14:00:00Z",

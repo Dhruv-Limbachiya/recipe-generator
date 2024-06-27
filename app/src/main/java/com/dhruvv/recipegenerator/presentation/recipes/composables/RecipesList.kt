@@ -4,7 +4,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -29,18 +29,18 @@ fun RecipesList(
         contentPadding = PaddingValues(start = 16.dp, end = 16.dp, bottom = 16.dp),
         verticalArrangement = Arrangement.spacedBy(8.dp),
     ) {
-        if(showNoOfRecipes != 0) {
-            items(recipes.take(showNoOfRecipes)) {
+        if (showNoOfRecipes != 0) {
+            itemsIndexed(recipes.take(showNoOfRecipes)) { index, item ->
                 RecipeItem(
-                    recipe = it,
+                    recipe = item,
                     onRecipeClicked = onRecipeClicked,
-                    onRecipeSwiped = onRecipeDelete
+                    onRecipeSwiped = onRecipeDelete,
                 )
             }
         } else {
-            items(recipes) {
+            itemsIndexed(recipes) { index, item ->
                 RecipeItem(
-                    recipe = it,
+                    recipe = item,
                     onRecipeClicked = onRecipeClicked,
                     onRecipeSwiped = onRecipeDelete
                 )
@@ -52,7 +52,12 @@ fun RecipesList(
 @Preview(showSystemUi = true, device = Devices.PIXEL_5)
 @Composable
 private fun RecipeListPreview() {
-    RecipesList(recipes = createActualRecipes(), scrollState = rememberLazyListState(), showNoOfRecipes = 0, onRecipeClicked = {}, onRecipeDelete = {})
+    RecipesList(
+        recipes = createActualRecipes(),
+        scrollState = rememberLazyListState(),
+        showNoOfRecipes = 0,
+        onRecipeClicked = {},
+        onRecipeDelete = {})
 }
 
 // Function to create a list of Recipe objects with actual data
