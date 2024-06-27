@@ -4,17 +4,14 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.ArrowBack
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
@@ -36,6 +33,11 @@ fun SavedRecipeScreen(
     onBackIconClick: () -> Unit
 ) {
     val savedRecipesState by remember { viewModel.savedRecipeState }
+
+    LaunchedEffect(key1 = Unit) {
+        viewModel.getSavedRecipes()
+    }
+
     SavedRecipeScaffold(
         modifier = modifier,
         savedRecipesState = savedRecipesState,
@@ -52,19 +54,15 @@ fun SavedRecipeScaffold(
 ) {
     val lazyListState = rememberLazyListState()
 
+
     Scaffold(
         topBar = {
             TopAppBar(
                 title = {
                     Text(
-                        text = stringResource(id = R.string.all_recipes),
+                        text = stringResource(id = R.string.saved_recipes),
                         style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Bold)
                     )
-                },
-                navigationIcon = {
-                    IconButton(onClick = onBackIconClick) {
-                        Icon(imageVector = Icons.Rounded.ArrowBack, contentDescription = "Back")
-                    }
                 },
             )
         }
@@ -90,7 +88,7 @@ fun SavedRecipeScaffold(
                         verticalArrangement = Arrangement.spacedBy(4.dp)
                     ) {
                         RecipesList(
-                            recipes = savedRecipesState.recipes.plus(savedRecipesState.recipes),
+                            recipes = savedRecipesState.recipes,
                             scrollState = lazyListState,
                             onRecipeClicked = {},
                             onRecipeDelete = {})

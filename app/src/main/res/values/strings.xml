@@ -28,4 +28,7 @@
 
     <!--recipe list screen-->
     <string name="all_recipes">All Recipes</string>
+
+    <!--saved recipe screen-->
+    <string name="saved_recipes">Saved Recipes</string>
 </resources>

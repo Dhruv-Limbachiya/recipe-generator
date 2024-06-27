@@ -133,7 +133,7 @@ private fun HomeScaffold(
                         }
 
                         RecipesList(
-                            recipes = homeState.generatedRecipes.plus(homeState.generatedRecipes),
+                            recipes = homeState.generatedRecipes,
                             showNoOfRecipes = 17,
                             scrollState = scrollState,
                             onRecipeClicked = {},

@@ -94,7 +94,7 @@ fun RecipeListScaffold(
                         verticalArrangement = Arrangement.spacedBy(4.dp)
                     ) {
                         RecipesList(
-                            recipes = recipeListState.recipes.plus(recipeListState.recipes),
+                            recipes = recipeListState.recipes,
                             scrollState = lazyListState,
                             onRecipeClicked = {},
                             onRecipeDelete = {})
