@@ -5,7 +5,6 @@ import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import androidx.room.Update
 import com.dhruvv.recipegenerator.data.db.entities.RecipeEntity
 
 @Dao
@@ -29,4 +28,8 @@ interface RecipeDao {
     // Updates a specific recipe in the database and returns the number of rows affected.
     @Query("UPDATE recipe SET is_saved=:isSaved WHERE id=:id")
     suspend fun updateRecipe(id: Int,isSaved: Int): Int
+
+    // Retrieves all saved recipes from the database as a list of RecipeEntity objects.
+    @Query("SELECT * FROM recipe WHERE is_saved=1")
+    suspend fun getSavedRecipes(): List<RecipeEntity>
 }

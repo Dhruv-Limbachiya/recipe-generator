@@ -6,4 +6,5 @@ object Route {
     const val RECIPES = "recipes"
     const val RECIPE_DETAIL = "recipe_detail"
     const val RECIPE_LIST = "recipe_list"
+    const val SAVED_RECIPE_LIST = "saved_recipes"
 }

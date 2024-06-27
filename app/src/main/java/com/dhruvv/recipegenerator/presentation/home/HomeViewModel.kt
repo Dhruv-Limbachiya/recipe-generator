@@ -1,13 +1,9 @@
 package com.dhruvv.recipegenerator.presentation.home
 
-import androidx.compose.runtime.Composable
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.ui.res.painterResource
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.dhruvv.recipegenerator.R
-import com.dhruvv.recipegenerator.common.navigation.NavItem
 import com.dhruvv.recipegenerator.common.util.Resource
 import com.dhruvv.recipegenerator.domain.usecases.UseCase
 import com.dhruvv.recipegenerator.presentation.home.HomeState.Companion.INVALID_HOME_STATE
@@ -105,27 +101,4 @@ class HomeViewModel @Inject constructor(
     private fun updateHomeState(homeState: HomeState) {
         _homeState.value = homeState
     }
-
-    @Composable
-    fun getNavItems() = listOf(
-        NavItem(
-            title = "Home",
-            icon = painterResource(id = R.drawable.ic_home_vector),
-            screenRoute = "home",
-            selected = true
-        ),
-        NavItem(
-            title = "Recipes",
-            icon = painterResource(id = R.drawable.ic_recipes_vector),
-            screenRoute = "home",
-            selected = true
-        ),
-
-        NavItem(
-            title = "Saved",
-            icon = painterResource(id = R.drawable.ic_filled_saved_vector),
-            screenRoute = "home",
-            selected = true
-        ),
-    )
 }

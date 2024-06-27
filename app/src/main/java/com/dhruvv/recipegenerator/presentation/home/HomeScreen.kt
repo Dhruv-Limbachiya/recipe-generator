@@ -1,7 +1,6 @@
 package com.dhruvv.recipegenerator.presentation.home
 
 import android.content.res.Configuration
-import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -31,7 +30,6 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.dhruvv.recipegenerator.R
 import com.dhruvv.recipegenerator.presentation.common.NoRecipeFound
-import com.dhruvv.recipegenerator.presentation.home.composables.BottomNavBar
 import com.dhruvv.recipegenerator.presentation.home.composables.GetStartedBox
 import com.dhruvv.recipegenerator.presentation.home.composables.HomeHeader
 import com.dhruvv.recipegenerator.presentation.recipes.composables.RecipesList
@@ -46,7 +44,7 @@ import com.dhruvv.recipegenerator.presentation.recipes.composables.RecipesList
 @Composable
 fun HomeScreen(
     navigateToGenerateRecipeScreen: () -> Unit,
-    navigateToRecipeListScreen: () -> Unit
+    navigateToRecipeListScreen: () -> Unit,
 ) {
     // Render the HomeScaffold passing the navigateToGenerateRecipeScreen callback
     HomeScaffold(navigateToGenerateRecipeScreen,navigateToRecipeListScreen)
@@ -61,7 +59,7 @@ fun HomeScreen(
 @Composable
 private fun HomeScaffold(
     navigateToGenerateRecipeScreen: () -> Unit,
-    navigateToRecipeListScreen: () -> Unit
+    navigateToRecipeListScreen: () -> Unit,
 ) {
     val viewModel: HomeViewModel = hiltViewModel()
 
@@ -75,17 +73,7 @@ private fun HomeScaffold(
     }
         // Scaffold provides a basic material design structure with padding
     Scaffold(
-        bottomBar = {
-            AnimatedVisibility(
-                visible = shouldHideBottomBar,
-//                enter  = fadeIn() + slideInVertically (),
-//                exit = slideOutVertically () + fadeOut() ,
-                content =  {
-                    BottomNavBar(navItems = viewModel.getNavItems()) {
 
-                    }
-                })
-        }
     ) { paddingValues ->
         Column(modifier = Modifier.padding(paddingValues)) {
             // Display the header of the Home screen

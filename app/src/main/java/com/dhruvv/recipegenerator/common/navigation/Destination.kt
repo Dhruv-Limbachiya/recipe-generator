@@ -32,4 +32,9 @@ sealed class Destination(
      * Represents the recipe list screen destination.
      */
     data object RecipeListScreen : Destination(Route.RECIPE_LIST)
+
+    /**
+     * Represents the save recipes list screen destination.
+     */
+    data object SaveRecipeListScreen : Destination(Route.SAVED_RECIPE_LIST)
 }

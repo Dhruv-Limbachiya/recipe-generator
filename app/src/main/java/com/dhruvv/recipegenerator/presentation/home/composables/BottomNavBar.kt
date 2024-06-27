@@ -17,23 +17,36 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavGraph.Companion.findStartDestination
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.currentBackStackEntryAsState
+import androidx.navigation.compose.rememberNavController
 import com.dhruvv.recipegenerator.R
+import com.dhruvv.recipegenerator.common.navigation.Destination
 import com.dhruvv.recipegenerator.common.navigation.NavItem
+import com.dhruvv.recipegenerator.common.navigation.Route
 
 //Composable function to create a bottom navigation bar
 @Composable
 fun BottomNavBar(
     modifier: Modifier = Modifier, //Modifier for customizingthe appearance of the navigation bar
     navItems: List<NavItem>, //List of navigation items to display
-    onNavItemClick: (NavItem) -> Unit //Callback function triggered when a navigation item is clicked
+    navController: NavHostController //Callback function triggered when a navigation item is clicked
 ) {
     //State to track the currently selected item index
-    var selectedItem by remember{ mutableIntStateOf(0) }
+    var selectedItem by remember { mutableIntStateOf(0) }
 
     //Jetpack Compose NavigationBar composable
     NavigationBar(
-        modifier = modifier.clip(RoundedCornerShape(topStart = 12.dp, topEnd = 12.dp)), //Clip the top corners of the navigation bar
+        modifier = modifier.clip(
+            RoundedCornerShape(
+                topStart = 12.dp,
+                topEnd = 12.dp
+            )
+        ), //Clip the top corners of the navigation bar
     ) {
+        val currentRoute = currentRoute(navController)
+
         //Iterate through the list of navigation items
         navItems.forEachIndexed { index, item ->
             //Create a NavigationBarItem for each item
@@ -50,11 +63,73 @@ fun BottomNavBar(
                 onClick = {
                     //Update the selected item index and trigger the callback function
                     selectedItem = index
-                    onNavItemClick(item)
+
+                    // This if check gives us a "singleTop" behavior where we do not create a
+                    // second instance of the composable if we are already on that destination
+                    if (currentRoute != item.screenRoute) {
+                        navigate(item, navController)
+
+                    }
                 }
             )
         }
     }
+}
+
+private fun navigate(
+    item: NavItem,
+    navController: NavHostController
+) {
+    when (item.screenRoute) {
+        Route.HOME_SCREEN -> navController.navigate(Destination.HomeScreen.route) {
+            // Pop up to the start destination of the graph to
+            // avoid building up a large stack of destinations
+            // on the back stack as users select items
+            popUpTo(navController.graph.findStartDestination().id) {
+                saveState = true
+            }
+            // Avoid multiple copies of the same destination when
+            // reselecting the same item
+            launchSingleTop = true
+            // Restore state when reselecting a previously selected item
+            restoreState = true
+        }
+
+        Route.RECIPE_LIST -> navController.navigate(Destination.RecipeListScreen.route) {
+            // Pop up to the start destination of the graph to
+            // avoid building up a large stack of destinations
+            // on the back stack as users select items
+            popUpTo(navController.graph.findStartDestination().id) {
+                saveState = true
+            }
+            // Avoid multiple copies of the same destination when
+            // reselecting the same item
+            launchSingleTop = true
+            // Restore state when reselecting a previously selected item
+            restoreState = true
+        }
+
+        Route.SAVED_RECIPE_LIST -> navController.navigate(Destination.SaveRecipeListScreen.route) {
+            // Pop up to the start destination of the graph to
+            // avoid building up a large stack of destinations
+            // on the back stack as users select items
+            popUpTo(navController.graph.findStartDestination().id) {
+                saveState = true
+            }
+            // Avoid multiple copies of the same destination when
+            // reselecting the same item
+            launchSingleTop = true
+            // Restore state when reselecting a previously selected item
+            restoreState = true
+        }
+    }
+}
+
+
+@Composable
+private fun currentRoute(navController: NavHostController): String? {
+    val navBackStackEntry by navController.currentBackStackEntryAsState()
+    return navBackStackEntry?.destination?.route
 }
 
 //Preview function to display the BottomNavBar composable
@@ -85,5 +160,5 @@ private fun BottomNavBarPreview() {
     )
 
     //Render the BottomNavBar composable with the sample items
-    BottomNavBar(navItems = items, onNavItemClick = {})
+    BottomNavBar(navItems = items, navController = rememberNavController())
 }

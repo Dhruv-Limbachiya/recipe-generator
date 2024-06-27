@@ -107,4 +107,20 @@ class RecipeRepoImpl(
             }
         }
     }
+
+    override fun getSavedRecipes(): Flow<Resource<List<Recipe>>> {
+        return flow {
+            emit(Resource.Loading())
+            try {
+                val recipes = recipeDao.getSavedRecipes()
+                if (recipes.isNotEmpty()) {
+                    emit(Resource.Success(recipes.map { it.toRecipeUIModel() }))
+                } else {
+                    emit(Resource.Error("Oops, we couldn't find any saved recipes!🍽️"))
+                }
+            } catch (e: Exception) {
+                emit(Resource.Error(e.message))
+            }
+        }
+    }
 }
