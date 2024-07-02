@@ -4,22 +4,17 @@ import android.widget.Toast
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.ArrowBack
-import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
@@ -32,21 +27,17 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.dhruvv.recipegenerator.R
+import com.dhruvv.recipegenerator.presentation.recipe_detail.composables.RecipeDetailButtons
 import com.dhruvv.recipegenerator.presentation.recipe_detail.composables.RecipeIngredient
 import com.dhruvv.recipegenerator.presentation.recipe_detail.composables.RecipeInstruction
 import com.dhruvv.recipegenerator.presentation.recipe_detail.composables.RecipeTip
 import com.dhruvv.recipegenerator.presentation.recipe_detail.composables.RecipeVariation
+
 
 /**
  * A Composable function to display the detail screen of a recipe.
@@ -59,10 +50,16 @@ import com.dhruvv.recipegenerator.presentation.recipe_detail.composables.RecipeV
 fun RecipeDetailScreen(
     modifier: Modifier = Modifier,
     recipeId: Int,
-    onPop: () -> Unit
+    onPop: () -> Unit,
+    navigateToHomeScreen: () -> Unit
 ) {
     // Call the scaffold that manages the layout of the screen
-    RecipeDetailScaffold(modifier = modifier, recipeId = recipeId, onPop = onPop)
+    RecipeDetailScaffold(
+        modifier = modifier,
+        recipeId = recipeId,
+        onPop = onPop,
+        navigateToHomeScreen = navigateToHomeScreen
+    )
 }
 
 /**
@@ -77,7 +74,8 @@ fun RecipeDetailScreen(
 fun RecipeDetailScaffold(
     modifier: Modifier = Modifier,
     recipeId: Int,
-    onPop: () -> Unit
+    onPop: () -> Unit,
+    navigateToHomeScreen: () -> Unit
 ) {
     // Obtain the RecipeDetailViewModel instance using Hilt
     val recipeDetailViewModel: RecipeDetailViewModel = hiltViewModel()
@@ -173,39 +171,23 @@ fun RecipeDetailScaffold(
                             }
                         }
 
-                        Button(modifier = Modifier
-                            .align(Alignment.BottomCenter)
-                            .fillMaxWidth()
-                            .background(Color.White)
-                            .padding(16.dp), onClick = {
-                            recipeDetailViewModel.saveRecipe(recipeId)
-                        }) {
-                            Row(
-                                verticalAlignment = Alignment.CenterVertically
-                            ) {
-                                Icon(
-                                    modifier = Modifier
-                                        .size(24.dp),
-                                    painter = painterResource(id = if (isSaved) R.drawable.ic_filled_saved_vector else R.drawable.ic_save_vector),
-                                    contentDescription = "Save Recipe",
-                                    tint = MaterialTheme.colorScheme.onTertiary
-                                )
-                                Spacer(modifier = Modifier.width(8.dp))
-                                Text(
-                                    text = stringResource(id = R.string.save_recipe),
-                                    style = MaterialTheme.typography.labelLarge.copy(
-                                        fontSize = 16.sp,
-                                        fontWeight = FontWeight(600)
-                                    )
-                                )
-                            }
-                        }
+                        RecipeDetailButtons(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .align(Alignment.BottomCenter)
+                                .background(Color.White)
+                                .padding(16.dp), recipeDetailViewModel,
+                            recipeId,
+                            isSaved,
+                            navigateToHomeScreen
+                        )
                     }
                 }
             }
         }
     }
 }
+
 
 /**
  * A Composable function for previewing the [RecipeDetailScreen] composable.
@@ -216,5 +198,6 @@ fun RecipeDetailScaffold(
 @Composable
 private fun RecipeDetailScreenPreview() {
     // Display the RecipeDetailScaffold composable with sample data
-    RecipeDetailScaffold(recipeId = 1, onPop = {})
+    RecipeDetailScaffold(recipeId = 1, onPop = {}, navigateToHomeScreen = {})
 }
+

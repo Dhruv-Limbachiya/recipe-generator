@@ -68,6 +68,8 @@ fun AppNavHost(
             val recipeId = backStackEntry.arguments?.getInt("recipeId") ?: -1
             RecipeDetailScreen(recipeId = recipeId, onPop =  {
                 navHostController.popBackStack()
+            }, navigateToHomeScreen =  {
+                navHostController.popBackStack(Destination.HomeScreen.route, inclusive = false)
             })
         }
 
