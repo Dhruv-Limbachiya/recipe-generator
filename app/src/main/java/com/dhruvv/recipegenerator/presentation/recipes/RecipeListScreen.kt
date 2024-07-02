@@ -36,7 +36,8 @@ fun RecipeListScreen(
     modifier: Modifier = Modifier,
     showBackButton: Boolean = false,
     viewModel: RecipeListViewModel = hiltViewModel(),
-    onBackIconClick: () -> Unit
+    onBackIconClick: () -> Unit,
+    navToRecipeDetail: (Int) -> Unit,
 ) {
     val recipeListState by remember { viewModel.recipeListState }
     LaunchedEffect(key1 = Unit) {
@@ -46,7 +47,8 @@ fun RecipeListScreen(
         modifier = modifier,
         showBackButton = showBackButton,
         recipeListState = recipeListState,
-        onBackIconClick = onBackIconClick
+        onBackIconClick = onBackIconClick,
+        navToRecipeDetail = navToRecipeDetail
     )
 }
 
@@ -56,7 +58,8 @@ fun RecipeListScaffold(
     modifier: Modifier = Modifier,
     showBackButton: Boolean = false,
     recipeListState: RecipeListState,
-    onBackIconClick: () -> Unit
+    onBackIconClick: () -> Unit,
+    navToRecipeDetail: (Int) -> Unit
 ) {
     val lazyListState = rememberLazyListState()
 
@@ -103,7 +106,9 @@ fun RecipeListScaffold(
                         RecipesList(
                             recipes = recipeListState.recipes,
                             scrollState = lazyListState,
-                            onRecipeClicked = {},
+                            onRecipeClicked = {
+                                navToRecipeDetail(it.id)
+                            },
                             onRecipeDelete = {})
                     }
                 }
@@ -117,5 +122,5 @@ fun RecipeListScaffold(
 private fun RecipeListScreenPreview() {
     val recipeState =
         RecipeListState(recipes = recipes(), isLoading = false, showNoRecipeGenerated = false)
-    RecipeListScaffold(recipeListState = recipeState, onBackIconClick = {})
+    RecipeListScaffold(recipeListState = recipeState, onBackIconClick = {}, navToRecipeDetail = {})
 }

@@ -45,9 +45,10 @@ import com.dhruvv.recipegenerator.presentation.recipes.composables.RecipesList
 fun HomeScreen(
     navigateToGenerateRecipeScreen: () -> Unit,
     navigateToRecipeListScreen: (showBackIcon: Boolean) -> Unit,
+    navigateToRecipeDetailScreen: (id: Int) -> Unit,
 ) {
     // Render the HomeScaffold passing the navigateToGenerateRecipeScreen callback
-    HomeScaffold(navigateToGenerateRecipeScreen,navigateToRecipeListScreen)
+    HomeScaffold(navigateToGenerateRecipeScreen,navigateToRecipeListScreen,navigateToRecipeDetailScreen)
 }
 
 /**
@@ -60,6 +61,7 @@ fun HomeScreen(
 private fun HomeScaffold(
     navigateToGenerateRecipeScreen: () -> Unit,
     navigateToRecipeListScreen: (showBackIcon: Boolean) -> Unit,
+    navigateToRecipeDetailScreen: (id: Int) -> Unit,
 ) {
     val viewModel: HomeViewModel = hiltViewModel()
 
@@ -136,7 +138,9 @@ private fun HomeScaffold(
                             recipes = homeState.generatedRecipes,
                             showNoOfRecipes = 17,
                             scrollState = scrollState,
-                            onRecipeClicked = {},
+                            onRecipeClicked = {
+                                navigateToRecipeDetailScreen(it.id)
+                            },
                             onRecipeDelete = {})
                     }
                 }
@@ -152,5 +156,5 @@ private fun HomeScaffold(
 @Preview(showSystemUi = true, device = Devices.PIXEL_5, uiMode = Configuration.UI_MODE_NIGHT_YES)
 @Composable
 private fun HomeScreenPreview() {
-    HomeScaffold(navigateToGenerateRecipeScreen = {}, navigateToRecipeListScreen = {})
+    HomeScaffold(navigateToGenerateRecipeScreen = {}, navigateToRecipeListScreen = {}, navigateToRecipeDetailScreen = {})
 }

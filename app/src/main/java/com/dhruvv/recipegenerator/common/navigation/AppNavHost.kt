@@ -38,6 +38,8 @@ fun AppNavHost(
             }, navigateToRecipeListScreen = { showBackIcon ->
                 // Callback to navigate to the RecipeListScreen
                 navHostController.navigate("${Destination.RecipeListScreen.route}/?show_back_button=$showBackIcon")
+            }, navigateToRecipeDetailScreen =  {
+                navHostController.navigate("${Destination.RecipeDetailScreen.route}/?id=$it")
             })
         }
 
@@ -87,10 +89,14 @@ fun AppNavHost(
         ) { backStackEntry ->
             val showBackButton = backStackEntry.arguments?.getBoolean("showBackButton") ?: false
             RecipeListScreen(
-                showBackButton = showBackButton
-            ) {
-                navHostController.popBackStack()
-            }
+                showBackButton = showBackButton,
+                onBackIconClick =  {
+                    navHostController.popBackStack()
+                },
+                navToRecipeDetail = { recipeId ->
+                navHostController.navigate("${Destination.RecipeDetailScreen.route}/?id=$recipeId")
+                }
+            )
         }
 
         // Composable for the RecipeListScreen destination
