@@ -30,14 +30,15 @@ class RecipeDetailViewModel @Inject constructor(
                     _recipeDetailState.value.copy(
                         isLoading = false,
                         recipe = Recipe.INVALID_RECIPE,
-                        error = resource.message ?: ""
+                        error = resource.message ?: "",
                     )
                 )
 
                 is Resource.Success -> updateRecipeState(
                     _recipeDetailState.value.copy(
                         isLoading = false,
-                        recipe = resource.data ?: Recipe.INVALID_RECIPE
+                        recipe = resource.data ?: Recipe.INVALID_RECIPE,
+                        isRecipeSaved = resource.data?.isSaved == 1
                     )
                 )
             }

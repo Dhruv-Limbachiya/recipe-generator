@@ -140,8 +140,8 @@ fun RecipeDetailScaffold(
 
                     if (recipeDetailState.isRecipeSaved) {
                         isSaved = true
-                        Toast.makeText(LocalContext.current, "Recipe Saved!", Toast.LENGTH_SHORT)
-                            .show()
+//                        Toast.makeText(LocalContext.current, "Recipe Saved!", Toast.LENGTH_SHORT)
+//                            .show()
                     }
 
                     Box {

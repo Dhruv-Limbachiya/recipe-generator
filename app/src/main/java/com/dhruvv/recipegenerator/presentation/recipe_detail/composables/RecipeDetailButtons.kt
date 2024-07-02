@@ -20,6 +20,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
@@ -43,6 +44,7 @@ fun RecipeDetailButtons(
     ) {
         Button(
             onClick = navigateToHomeScreen,
+            modifier = if(isSaved) Modifier.weight(1f) else  Modifier.semantics {  },
             colors = ButtonDefaults.buttonColors().copy(containerColor = Color.Gray)
         ) {
             Row(
@@ -67,6 +69,7 @@ fun RecipeDetailButtons(
 
         }
 
+
         Button(onClick = {
             recipeDetailViewModel?.saveRecipe(recipeId)
         }, modifier = Modifier.weight(1f)) {
@@ -82,7 +85,11 @@ fun RecipeDetailButtons(
                 )
                 Spacer(modifier = Modifier.width(8.dp))
                 Text(
-                    text = stringResource(id = R.string.save_recipe),
+                    text = stringResource(id = if(isSaved) {
+                        R.string.saved
+                    } else {
+                        R.string.save_recipe
+                    }),
                     style = MaterialTheme.typography.labelLarge.copy(
                         fontSize = 16.sp,
                         fontWeight = FontWeight(600)
