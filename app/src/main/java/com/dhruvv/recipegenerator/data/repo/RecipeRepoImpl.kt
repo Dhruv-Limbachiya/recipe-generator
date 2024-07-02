@@ -9,6 +9,7 @@ import com.dhruvv.recipegenerator.data.model.Recipe
 import com.dhruvv.recipegenerator.domain.repo.RecipeRepo
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.map
 
 /**
  * RecipeRepoImpl is responsible for providing access to recipe data, including generation and retrieval.
@@ -57,12 +58,24 @@ class RecipeRepoImpl(
         return flow {
             emit(Resource.Loading())
             try {
-                val recipes = recipeDao.getRecipes().map { it.toRecipeUIModel() }
-                if (recipes.isNotEmpty()) {
-                    emit(Resource.Success(recipes))
-                } else {
-                    emit(Resource.Error("Oops, we couldn't find any recipes!🍽️"))
+                // Fetch recipes from the database and transform them to UI models
+                val recipeEntityFlow = recipeDao.getRecipes() // Flow<List<RecipeEntity>>
+                // Map the RecipeEntity objects to RecipeUIModel objects
+                val recipesFlow = recipeEntityFlow.map { recipeEntities ->
+                    recipeEntities.map { it.toRecipeUIModel() }
                 }
+
+                // Collect the flow of RecipeUIModel objects and emit a Resource state
+                recipesFlow.collect { recipes ->
+                    if (recipes.isNotEmpty()) {
+                        // Emit Success state with the list of recipes
+                        emit(Resource.Success(recipes))
+                    } else {
+                        // Emit Error state with a message
+                        emit(Resource.Error("Oops, we couldn't find any recipes!️"))
+                    }
+                }
+
             } catch (e: Exception) {
                 emit(Resource.Error(e.message))
             }
