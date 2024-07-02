@@ -1,6 +1,5 @@
 package com.dhruvv.recipegenerator.common.navigation
 
-import android.util.Log
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
@@ -36,9 +35,9 @@ fun AppNavHost(
             HomeScreen(navigateToGenerateRecipeScreen = {
                 // Callback to navigate to the GenerateRecipeScreen
                 navHostController.navigate(Destination.GenerateRecipeScreen.route)
-            }, navigateToRecipeListScreen = {
+            }, navigateToRecipeListScreen = { showBackIcon ->
                 // Callback to navigate to the RecipeListScreen
-                navHostController.navigate(Destination.RecipeListScreen.route)
+                navHostController.navigate("${Destination.RecipeListScreen.route}/?show_back_button=$showBackIcon")
             })
         }
 
@@ -73,8 +72,21 @@ fun AppNavHost(
         }
 
         // Composable for the RecipeListScreen destination
-        composable(route = Destination.RecipeListScreen.route) {
-            RecipeListScreen {
+        composable(
+            route = "${Destination.RecipeListScreen.route}/?show_back_button={showBackButton}",
+            arguments = listOf(
+                navArgument(
+                    name = "showBackButton",
+                ) {
+                    type = NavType.BoolType
+                    defaultValue = false
+                }
+            )
+        ) { backStackEntry ->
+            val showBackButton = backStackEntry.arguments?.getBoolean("showBackButton") ?: false
+            RecipeListScreen(
+                showBackButton = showBackButton
+            ) {
                 navHostController.popBackStack()
             }
         }

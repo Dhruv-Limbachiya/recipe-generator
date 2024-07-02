@@ -1,5 +1,6 @@
 package com.dhruvv.recipegenerator.presentation.recipes
 
+import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
@@ -33,6 +34,7 @@ import com.dhruvv.recipegenerator.presentation.recipes.composables.RecipesList
 @Composable
 fun RecipeListScreen(
     modifier: Modifier = Modifier,
+    showBackButton: Boolean = false,
     viewModel: RecipeListViewModel = hiltViewModel(),
     onBackIconClick: () -> Unit
 ) {
@@ -42,6 +44,7 @@ fun RecipeListScreen(
     }
     RecipeListScaffold(
         modifier = modifier,
+        showBackButton = showBackButton,
         recipeListState = recipeListState,
         onBackIconClick = onBackIconClick
     )
@@ -51,6 +54,7 @@ fun RecipeListScreen(
 @Composable
 fun RecipeListScaffold(
     modifier: Modifier = Modifier,
+    showBackButton: Boolean = false,
     recipeListState: RecipeListState,
     onBackIconClick: () -> Unit
 ) {
@@ -66,8 +70,11 @@ fun RecipeListScaffold(
                     )
                 },
                 navigationIcon = {
-                    IconButton(onClick = onBackIconClick) {
-                        Icon(imageVector = Icons.Rounded.ArrowBack, contentDescription = "Back")
+                    Log.i("RecipeListScreen", "RecipeListScaffold: $showBackButton")
+                    if (showBackButton) {
+                        IconButton(onClick = onBackIconClick) {
+                            Icon(imageVector = Icons.Rounded.ArrowBack, contentDescription = "Back")
+                        }
                     }
                 },
             )

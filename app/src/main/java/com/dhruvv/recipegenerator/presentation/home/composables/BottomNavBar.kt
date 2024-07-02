@@ -95,7 +95,7 @@ private fun navigate(
             restoreState = true
         }
 
-        Route.RECIPE_LIST -> navController.navigate(Destination.RecipeListScreen.route) {
+        Route.RECIPE_LIST -> navController.navigate("${Destination.RecipeListScreen.route}/?show_back_button={false}") {
             // Pop up to the start destination of the graph to
             // avoid building up a large stack of destinations
             // on the back stack as users select items

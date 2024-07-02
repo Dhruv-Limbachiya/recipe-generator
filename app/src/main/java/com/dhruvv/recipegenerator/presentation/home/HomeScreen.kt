@@ -44,7 +44,7 @@ import com.dhruvv.recipegenerator.presentation.recipes.composables.RecipesList
 @Composable
 fun HomeScreen(
     navigateToGenerateRecipeScreen: () -> Unit,
-    navigateToRecipeListScreen: () -> Unit,
+    navigateToRecipeListScreen: (showBackIcon: Boolean) -> Unit,
 ) {
     // Render the HomeScaffold passing the navigateToGenerateRecipeScreen callback
     HomeScaffold(navigateToGenerateRecipeScreen,navigateToRecipeListScreen)
@@ -59,7 +59,7 @@ fun HomeScreen(
 @Composable
 private fun HomeScaffold(
     navigateToGenerateRecipeScreen: () -> Unit,
-    navigateToRecipeListScreen: () -> Unit,
+    navigateToRecipeListScreen: (showBackIcon: Boolean) -> Unit,
 ) {
     val viewModel: HomeViewModel = hiltViewModel()
 
@@ -118,7 +118,7 @@ private fun HomeScaffold(
                                     .shadow(shape = RoundedCornerShape(20.dp), elevation = 1.dp)
                                     .background(MaterialTheme.colorScheme.primaryContainer)
                                     .clickable {
-                                        navigateToRecipeListScreen()
+                                        navigateToRecipeListScreen(true)
                                     },
                             ) {
                                 Text(

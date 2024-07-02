@@ -41,7 +41,7 @@ fun RecipeGeneratorMain(modifier: Modifier = Modifier) {
         }
         navHostController.addOnDestinationChangedListener { controller, destination, _ ->
             showBottomBar =
-                destination.route == Route.HOME_SCREEN || destination.route == Route.RECIPE_LIST || destination.route == Route.SAVED_RECIPE_LIST
+                destination.route == Route.HOME_SCREEN || destination.route?.contains(Route.RECIPE_LIST) == true || destination.route == Route.SAVED_RECIPE_LIST
         }
 
         // Surface provides a background color for the entire screen
