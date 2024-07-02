@@ -1,19 +1,27 @@
 package com.dhruvv.recipegenerator.presentation.recipes.composables
 
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
-import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import com.dhruvv.recipegenerator.common.util.isYesterday
+import com.dhruvv.recipegenerator.common.util.toDate
+import com.dhruvv.recipegenerator.common.util.toddMMMyyyy
 import com.dhruvv.recipegenerator.data.api.model.ApiRecipe
 import com.dhruvv.recipegenerator.data.model.Recipe
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun RecipesList(
     modifier: Modifier = Modifier,
@@ -23,29 +31,57 @@ fun RecipesList(
     onRecipeClicked: (Recipe) -> Unit,
     onRecipeDelete: (Recipe) -> Unit
 ) {
+
+    val dateWiseExpenseMap = mutableMapOf<String, MutableList<Recipe>>()
+
+    recipes.forEach {
+        if (it.generatedAt == System.currentTimeMillis().toDate()) {
+            dateWiseExpenseMap.getOrPut("Today") { mutableListOf() }.add(it) // / today's expenses
+        } else if (it.generatedAt.isYesterday()) {
+            dateWiseExpenseMap.getOrPut("Yesterday") { mutableListOf() }.add(it) // / yesterday
+        } else {
+            dateWiseExpenseMap.getOrPut(it.generatedAt.toddMMMyyyy() ?: "") { mutableListOf() }
+                .add(it) //other day
+        }
+    }
+
     LazyColumn(
         modifier = modifier,
         state = scrollState,
         contentPadding = PaddingValues(start = 16.dp, end = 16.dp, bottom = 16.dp),
         verticalArrangement = Arrangement.spacedBy(8.dp),
     ) {
-        if (showNoOfRecipes != 0) {
-            itemsIndexed(recipes.take(showNoOfRecipes)) { index, item ->
-                RecipeItem(
-                    recipe = item,
-                    onRecipeClicked = onRecipeClicked,
-                    onRecipeSwiped = onRecipeDelete,
-                )
+        dateWiseExpenseMap.keys
+            .forEach { date ->
+                stickyHeader {
+                    Text(
+                        text = date,
+                        modifier = Modifier
+                            .padding(4.dp),
+                        fontSize = 14.sp,
+                    )
+                }
+
+                val mappedRecipes = dateWiseExpenseMap[date]?.toList() ?: emptyList()
+
+                if (showNoOfRecipes != 0) {
+                    items(mappedRecipes.take(showNoOfRecipes)) { item ->
+                        RecipeItem(
+                            recipe = item,
+                            onRecipeClicked = onRecipeClicked,
+                            onRecipeSwiped = onRecipeDelete,
+                        )
+                    }
+                } else {
+                    items(mappedRecipes) { item ->
+                        RecipeItem(
+                            recipe = item,
+                            onRecipeClicked = onRecipeClicked,
+                            onRecipeSwiped = onRecipeDelete
+                        )
+                    }
+                }
             }
-        } else {
-            itemsIndexed(recipes) { index, item ->
-                RecipeItem(
-                    recipe = item,
-                    onRecipeClicked = onRecipeClicked,
-                    onRecipeSwiped = onRecipeDelete
-                )
-            }
-        }
     }
 }
 

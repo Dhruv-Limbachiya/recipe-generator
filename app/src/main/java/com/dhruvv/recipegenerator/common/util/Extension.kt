@@ -5,6 +5,7 @@ import android.util.Log
 import java.text.SimpleDateFormat
 import java.time.LocalDate
 import java.util.Calendar
+import java.util.Date
 import java.util.Locale
 
 /**
@@ -57,4 +58,31 @@ fun formatDate(dateString: String,format: String = "dd MMM"): String {
         Log.e("Extension", "formatDate: ", e)
     }
     return ""
+}
+
+fun String.isYesterday(): Boolean {
+    // Parse the string date
+    val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+    val parsedDate = dateFormat.parse(this)
+
+    // Get Calendar instances for today and the parsed date
+    val todayCalendar = Calendar.getInstance()
+    val parsedCalendar = Calendar.getInstance()
+
+    parsedDate?.let {
+        parsedCalendar.time = parsedDate
+    }
+
+    // Check if parsed date is yesterday
+    todayCalendar.add(Calendar.DAY_OF_YEAR, -1) // Move to yesterday
+    return todayCalendar.get(Calendar.YEAR) == parsedCalendar.get(Calendar.YEAR) &&
+            todayCalendar.get(Calendar.DAY_OF_YEAR) == parsedCalendar.get(Calendar.DAY_OF_YEAR)
+}
+
+fun String.toddMMMyyyy(): String {
+    val inputFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+    val outputFormat = SimpleDateFormat("dd MMM yyyy", Locale.getDefault())
+    val date = inputFormat.parse(this) ?: Date()
+    val formattedDate = outputFormat.format(date)
+    return formattedDate
 }
