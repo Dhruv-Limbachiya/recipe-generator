@@ -71,7 +71,7 @@ fun RecipeDetailButtons(
 
 
         Button(onClick = {
-            recipeDetailViewModel?.saveRecipe(recipeId)
+            recipeDetailViewModel?.saveRecipe(recipeId, isSaved = isSaved)
         }, modifier = Modifier.weight(1f)) {
             Row(
                 verticalAlignment = Alignment.CenterVertically

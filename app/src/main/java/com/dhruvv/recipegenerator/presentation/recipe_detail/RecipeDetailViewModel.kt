@@ -45,8 +45,9 @@ class RecipeDetailViewModel @Inject constructor(
         }
     }
 
-    fun saveRecipe(id: Int) = viewModelScope.launch {
-        val updateRecipeResource = useCase.saveRecipe(recipeId = id, isSaved = 1)
+    fun saveRecipe(id: Int,isSaved: Boolean) = viewModelScope.launch {
+        val save = if(isSaved) 0 else 1
+        val updateRecipeResource = useCase.saveRecipe(recipeId = id, isSaved = save)
         updateRecipeResource.collectLatest { resource ->
             when (resource) {
                 is Resource.Loading -> updateRecipeState(_recipeDetailState.value.copy(isLoading = true))
@@ -62,7 +63,7 @@ class RecipeDetailViewModel @Inject constructor(
                 is Resource.Success -> updateRecipeState(
                     _recipeDetailState.value.copy(
                         isLoading = false,
-                        isRecipeSaved = true
+                        isRecipeSaved = save == 1
                     )
                 )
             }
