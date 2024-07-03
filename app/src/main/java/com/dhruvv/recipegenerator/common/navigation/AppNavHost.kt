@@ -29,7 +29,7 @@ fun AppNavHost(
         navController = navHostController,
         modifier = modifier,
         startDestination = Destination.HomeScreen.route,
-        ) {
+    ) {
         // Composable for the HomeScreen destination
         composable(route = Destination.HomeScreen.route) {
             HomeScreen(navigateToGenerateRecipeScreen = {
@@ -38,14 +38,14 @@ fun AppNavHost(
             }, navigateToRecipeListScreen = { showBackIcon ->
                 // Callback to navigate to the RecipeListScreen
                 navHostController.navigate("${Destination.RecipeListScreen.route}/?show_back_button=$showBackIcon")
-            }, navigateToRecipeDetailScreen =  {
+            }, navigateToRecipeDetailScreen = {
                 navHostController.navigate("${Destination.RecipeDetailScreen.route}/?id=$it")
             })
         }
 
         // Composable for the GenerateRecipeScreen destination
         composable(route = Destination.GenerateRecipeScreen.route) {
-            GenerateRecipeScreen(navigateToRecipeDetailScreen =  {recipeId ->
+            GenerateRecipeScreen(navigateToRecipeDetailScreen = { recipeId ->
                 // Callback to navigate to the Recipe Detail Screen
                 navHostController.navigate("${Destination.RecipeDetailScreen.route}/?id=$recipeId")
             }, onPop = {
@@ -65,12 +65,12 @@ fun AppNavHost(
                     defaultValue = -1
                 }
             )
-        ) {backStackEntry ->
+        ) { backStackEntry ->
             // Get the recipe id from the arguments and pass to the RecipeDetailScreen composable
             val recipeId = backStackEntry.arguments?.getInt("recipeId") ?: -1
-            RecipeDetailScreen(recipeId = recipeId, onPop =  {
+            RecipeDetailScreen(recipeId = recipeId, onPop = {
                 navHostController.popBackStack()
-            }, navigateToHomeScreen =  {
+            }, navigateToHomeScreen = {
                 navHostController.popBackStack(Destination.HomeScreen.route, inclusive = false)
             })
         }
@@ -90,20 +90,26 @@ fun AppNavHost(
             val showBackButton = backStackEntry.arguments?.getBoolean("showBackButton") ?: false
             RecipeListScreen(
                 showBackButton = showBackButton,
-                onBackIconClick =  {
+                onBackIconClick = {
                     navHostController.popBackStack()
                 },
                 navToRecipeDetail = { recipeId ->
-                navHostController.navigate("${Destination.RecipeDetailScreen.route}/?id=$recipeId")
+                    navHostController.navigate("${Destination.RecipeDetailScreen.route}/?id=$recipeId")
+                },
+                navToGenerateRecipeScreen = {
+                    navHostController.navigate(Destination.GenerateRecipeScreen.route)
                 }
             )
         }
 
         // Composable for the RecipeListScreen destination
         composable(route = Destination.SaveRecipeListScreen.route) {
-            SavedRecipeScreen {
-                navHostController.popBackStack()
-            }
+            SavedRecipeScreen(
+                navToGenerateRecipeScreen = {
+                    navHostController.navigate(Destination.GenerateRecipeScreen.route)
+                }, onBackIconClick = {
+                    navHostController.popBackStack()
+                })
         }
     }
 }

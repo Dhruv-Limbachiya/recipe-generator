@@ -16,6 +16,7 @@
     <string name="get_started">Get Started</string>
 
     <string name="no_recipe_found">Oops! Looks like there are no recipes available right now</string>
+    <string name="no_saved_recipe_found">Oops! Looks like there are no saved recipes available right now</string>
 
     <!--  recipe detail screen strings  -->
     <string name="ingredients">Ingredients</string>

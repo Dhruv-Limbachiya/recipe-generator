@@ -30,7 +30,8 @@ import com.dhruvv.recipegenerator.presentation.recipes.composables.RecipesList
 fun SavedRecipeScreen(
     modifier: Modifier = Modifier,
     viewModel: SavedRecipeViewModel = hiltViewModel(),
-    onBackIconClick: () -> Unit
+    onBackIconClick: () -> Unit,
+    navToGenerateRecipeScreen: () -> Unit,
 ) {
     val savedRecipesState by remember { viewModel.savedRecipeState }
 
@@ -41,7 +42,8 @@ fun SavedRecipeScreen(
     SavedRecipeScaffold(
         modifier = modifier,
         savedRecipesState = savedRecipesState,
-        onBackIconClick = onBackIconClick
+        onBackIconClick = onBackIconClick,
+        navToGenerateRecipeScreen = navToGenerateRecipeScreen
     )
 }
 
@@ -50,7 +52,8 @@ fun SavedRecipeScreen(
 fun SavedRecipeScaffold(
     modifier: Modifier = Modifier,
     savedRecipesState: SavedRecipeState,
-    onBackIconClick: () -> Unit
+    onBackIconClick: () -> Unit,
+    navToGenerateRecipeScreen: () -> Unit,
 ) {
     val lazyListState = rememberLazyListState()
 
@@ -76,6 +79,7 @@ fun SavedRecipeScaffold(
                     // Component to handle scenario when no recipes are found
                     NoRecipeFound(
                         showAddExpenseButton = true,
+                        messageId = R.string.no_saved_recipe_found,
                         onGenerateRecipeButtonClick = { }
                     )
                 }
@@ -105,5 +109,5 @@ fun SavedRecipeScaffold(
 private fun SavedRecipesScreenPreview() {
     val recipeState =
         SavedRecipeState(recipes = recipes(), isLoading = false, showNoRecipeGenerated = false)
-    SavedRecipeScaffold(savedRecipesState = recipeState, onBackIconClick = {})
+    SavedRecipeScaffold(savedRecipesState = recipeState, onBackIconClick = {}, navToGenerateRecipeScreen = {})
 }

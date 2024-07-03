@@ -1,5 +1,6 @@
 package com.dhruvv.recipegenerator.presentation.common
 
+import androidx.annotation.StringRes
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -43,6 +44,7 @@ import com.dhruvv.recipegenerator.R
 @Composable
 fun NoRecipeFound(
     modifier: Modifier = Modifier,
+    @StringRes messageId: Int= 0,
     showAddExpenseButton: Boolean = true,
     onGenerateRecipeButtonClick: () -> Unit,
 ) {
@@ -70,7 +72,7 @@ fun NoRecipeFound(
         // Text message indicating no recipes found
         Text(
             modifier = Modifier.padding(horizontal = 30.dp),
-            text = stringResource(id = R.string.no_recipe_found),
+            text = stringResource(id = if(messageId == 0)  R.string.no_recipe_found else messageId),
             style = MaterialTheme.typography.titleMedium,
             textAlign = TextAlign.Center
         )

@@ -38,7 +38,8 @@ fun RecipeListScreen(
     viewModel: RecipeListViewModel = hiltViewModel(),
     onBackIconClick: () -> Unit,
     navToRecipeDetail: (Int) -> Unit,
-) {
+    navToGenerateRecipeScreen: () -> Unit,
+    ) {
     val recipeListState by remember { viewModel.recipeListState }
     LaunchedEffect(key1 = Unit) {
         viewModel.getGenerateRecipes()
@@ -48,7 +49,8 @@ fun RecipeListScreen(
         showBackButton = showBackButton,
         recipeListState = recipeListState,
         onBackIconClick = onBackIconClick,
-        navToRecipeDetail = navToRecipeDetail
+        navToRecipeDetail = navToRecipeDetail,
+        navToGenerateRecipeScreen = navToGenerateRecipeScreen
     )
 }
 
@@ -59,8 +61,9 @@ fun RecipeListScaffold(
     showBackButton: Boolean = false,
     recipeListState: RecipeListState,
     onBackIconClick: () -> Unit,
-    navToRecipeDetail: (Int) -> Unit
-) {
+    navToRecipeDetail: (Int) -> Unit,
+    navToGenerateRecipeScreen: () -> Unit,
+    ) {
     val lazyListState = rememberLazyListState()
     val viewModel:RecipeListViewModel = hiltViewModel()
 
@@ -92,7 +95,7 @@ fun RecipeListScaffold(
                     // Component to handle scenario when no recipes are found
                     NoRecipeFound(
                         showAddExpenseButton = true,
-                        onGenerateRecipeButtonClick = { }
+                        onGenerateRecipeButtonClick = navToGenerateRecipeScreen
                     )
                 }
 
@@ -123,5 +126,5 @@ fun RecipeListScaffold(
 private fun RecipeListScreenPreview() {
     val recipeState =
         RecipeListState(recipes = recipes(), isLoading = false, showNoRecipeGenerated = false)
-    RecipeListScaffold(recipeListState = recipeState, onBackIconClick = {}, navToRecipeDetail = {})
+    RecipeListScaffold(recipeListState = recipeState, onBackIconClick = {}, navToRecipeDetail = {}, navToGenerateRecipeScreen = {})
 }
