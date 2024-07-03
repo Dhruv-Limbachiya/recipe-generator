@@ -1,6 +1,5 @@
 package com.dhruvv.recipegenerator.data.model
 
-import com.dhruvv.recipegenerator.common.util.toDate
 import com.dhruvv.recipegenerator.data.api.model.ApiRecipe
 import com.dhruvv.recipegenerator.data.db.entities.RecipeEntity
 
@@ -23,5 +22,12 @@ data class Recipe(
          * This can be used, for example, to initialize placeholder or default recipe objects.
          */
         val INVALID_RECIPE = Recipe()
+
+        fun Recipe.toRecipeEntity() = RecipeEntity(
+            id = id,
+            apiRecipe = apiRecipe,
+            generatedAt = generatedAt,
+            isSaved = isSaved
+        )
     }
 }

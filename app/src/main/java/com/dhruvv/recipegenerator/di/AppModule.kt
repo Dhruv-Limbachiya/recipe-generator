@@ -15,6 +15,7 @@ import com.dhruvv.recipegenerator.domain.usecases.GetGeneratedRecipes
 import com.dhruvv.recipegenerator.domain.usecases.GetRecipeById
 import com.dhruvv.recipegenerator.domain.usecases.GetSavedRecipes
 import com.dhruvv.recipegenerator.domain.usecases.GetStaticIngredient
+import com.dhruvv.recipegenerator.domain.usecases.RemoveRecipe
 import com.dhruvv.recipegenerator.domain.usecases.SaveRecipe
 import com.dhruvv.recipegenerator.domain.usecases.UseCase
 import com.squareup.moshi.Moshi
@@ -104,6 +105,7 @@ object AppModule {
             GetGeneratedRecipes(recipeRepo),
             GetRecipeById(recipeRepo),
             SaveRecipe(recipeRepo),
-            GetSavedRecipes(recipeRepo)
+            GetSavedRecipes(recipeRepo),
+            removeRecipe = RemoveRecipe(recipeRepo)
         )
 }

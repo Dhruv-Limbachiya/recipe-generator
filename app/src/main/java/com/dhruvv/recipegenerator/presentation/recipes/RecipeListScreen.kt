@@ -62,6 +62,7 @@ fun RecipeListScaffold(
     navToRecipeDetail: (Int) -> Unit
 ) {
     val lazyListState = rememberLazyListState()
+    val viewModel:RecipeListViewModel = hiltViewModel()
 
     Scaffold(
         topBar = {
@@ -109,7 +110,7 @@ fun RecipeListScaffold(
                             onRecipeClicked = {
                                 navToRecipeDetail(it.id)
                             },
-                            onRecipeDelete = {})
+                            onRecipeDelete = viewModel::deleteRecipe)
                     }
                 }
             }

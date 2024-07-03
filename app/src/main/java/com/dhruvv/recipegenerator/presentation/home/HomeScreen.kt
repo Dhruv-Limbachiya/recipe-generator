@@ -141,7 +141,7 @@ private fun HomeScaffold(
                             onRecipeClicked = {
                                 navigateToRecipeDetailScreen(it.id)
                             },
-                            onRecipeDelete = {})
+                            onRecipeDelete = viewModel::deleteRecipe)
                     }
                 }
             }

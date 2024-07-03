@@ -1,10 +1,12 @@
 package com.dhruvv.recipegenerator.presentation.recipes
 
+import android.util.Log
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.dhruvv.recipegenerator.common.util.Resource
+import com.dhruvv.recipegenerator.data.model.Recipe
 import com.dhruvv.recipegenerator.domain.usecases.UseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -88,5 +90,19 @@ class RecipeListViewModel @Inject constructor(
      */
     private fun updateRecipeListState(recipeListState: RecipeListState) {
         _recipeListState.value = recipeListState
+    }
+
+    fun deleteRecipe(recipe:Recipe) = viewModelScope.launch {
+        useCase.removeRecipe(recipe).collectLatest { resource ->
+            when(resource) {
+                is Resource.Error -> Log.e(TAG,"Error deleting recipe: ${resource.message}")
+                is Resource.Loading -> Log.d(TAG,"Deleting...")
+                is Resource.Success -> Log.d(TAG,"Recipe deleted successfully")
+            }
+        }
+    }
+
+    companion object {
+        private const val TAG = "RecipeListViewModel"
     }
 }

@@ -6,6 +6,7 @@ import com.dhruvv.recipegenerator.data.api.model.toRecipeEntity
 import com.dhruvv.recipegenerator.data.db.dao.RecipeDao
 import com.dhruvv.recipegenerator.data.db.entities.toRecipeUIModel
 import com.dhruvv.recipegenerator.data.model.Recipe
+import com.dhruvv.recipegenerator.data.model.Recipe.Companion.toRecipeEntity
 import com.dhruvv.recipegenerator.domain.repo.RecipeRepo
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -130,6 +131,22 @@ class RecipeRepoImpl(
                     emit(Resource.Success(recipes.map { it.toRecipeUIModel() }))
                 } else {
                     emit(Resource.Error("Oops, we couldn't find any saved recipes!🍽️"))
+                }
+            } catch (e: Exception) {
+                emit(Resource.Error(e.message))
+            }
+        }
+    }
+
+    override fun removeRecipe(recipe: Recipe): Flow<Resource<Int>> {
+        return flow {
+            emit(Resource.Loading())
+            try {
+                val rowsAffected = recipeDao.deleteExpense(recipe.toRecipeEntity())
+                if (rowsAffected != 0) {
+                    emit(Resource.Success(rowsAffected))
+                } else {
+                    emit(Resource.Error("Uh-oh, we failed to delete that recipe!🍲"))
                 }
             } catch (e: Exception) {
                 emit(Resource.Error(e.message))

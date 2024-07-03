@@ -11,5 +11,6 @@ data class UseCase(
     val generatedRecipes: GetGeneratedRecipes,
     val getRecipeById: GetRecipeById,
     val saveRecipe: SaveRecipe,
-    val getSavedRecipes: GetSavedRecipes
+    val getSavedRecipes: GetSavedRecipes,
+    val removeRecipe: RemoveRecipe
 )

@@ -54,6 +54,7 @@ fun SavedRecipeScaffold(
 ) {
     val lazyListState = rememberLazyListState()
 
+    val viewModel: SavedRecipeViewModel = hiltViewModel()
 
     Scaffold(
         topBar = {
@@ -91,7 +92,7 @@ fun SavedRecipeScaffold(
                             recipes = savedRecipesState.recipes,
                             scrollState = lazyListState,
                             onRecipeClicked = {},
-                            onRecipeDelete = {})
+                            onRecipeDelete = viewModel::deleteRecipe)
                     }
                 }
             }
