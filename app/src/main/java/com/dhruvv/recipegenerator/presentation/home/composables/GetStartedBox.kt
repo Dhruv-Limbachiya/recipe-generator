@@ -18,7 +18,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -51,12 +50,12 @@ fun GetStartedBox(
                 modifier = Modifier
                     .padding(12.dp)
                     .clip(RoundedCornerShape(10.dp))
-                    .background(Color.White)
+                    .background(MaterialTheme.colorScheme.onPrimaryContainer)
                     .padding(8.dp)
                     .size(24.dp),
                 painter = painterResource(id = R.drawable.ic_magic_wand),
                 contentDescription = "Generate",
-                colorFilter = ColorFilter.tint(color = Color.Black)
+                colorFilter = ColorFilter.tint(color = MaterialTheme.colorScheme.primaryContainer)
             )
 
             Text(
