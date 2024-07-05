@@ -29,6 +29,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.dhruvv.recipegenerator.R
+import com.dhruvv.recipegenerator.presentation.common.Loader
 import com.dhruvv.recipegenerator.presentation.common.NoRecipeFound
 import com.dhruvv.recipegenerator.presentation.home.composables.GetStartedBox
 import com.dhruvv.recipegenerator.presentation.home.composables.HomeHeader
@@ -94,7 +95,7 @@ private fun HomeScaffold(
                 }
 
                 homeState.isLoading -> {
-                    CircularProgressIndicator()
+                    Loader()
                 }
 
                 else -> {

@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.ArrowBack
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -28,6 +27,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.dhruvv.recipegenerator.R
 import com.dhruvv.recipegenerator.common.util.recipes
+import com.dhruvv.recipegenerator.presentation.common.Loader
 import com.dhruvv.recipegenerator.presentation.common.NoRecipeFound
 import com.dhruvv.recipegenerator.presentation.recipes.composables.RecipesList
 
@@ -100,7 +100,7 @@ fun RecipeListScaffold(
                 }
 
                 recipeListState.isLoading -> {
-                    CircularProgressIndicator()
+                    Loader()
                 }
 
                 else -> {

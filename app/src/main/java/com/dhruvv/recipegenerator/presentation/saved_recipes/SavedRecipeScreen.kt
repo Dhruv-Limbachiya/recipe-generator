@@ -23,6 +23,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.dhruvv.recipegenerator.R
 import com.dhruvv.recipegenerator.common.util.recipes
+import com.dhruvv.recipegenerator.presentation.common.Loader
 import com.dhruvv.recipegenerator.presentation.common.NoRecipeFound
 import com.dhruvv.recipegenerator.presentation.recipes.composables.RecipesList
 
@@ -85,7 +86,7 @@ fun SavedRecipeScaffold(
                 }
 
                 savedRecipesState.isLoading -> {
-                    CircularProgressIndicator()
+                   Loader()
                 }
 
                 else -> {

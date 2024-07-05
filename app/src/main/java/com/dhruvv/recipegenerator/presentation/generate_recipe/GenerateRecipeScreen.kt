@@ -2,18 +2,15 @@ package com.dhruvv.recipegenerator.presentation.generate_recipe
 
 import android.widget.Toast
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material3.Button
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -25,7 +22,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
@@ -41,6 +37,7 @@ import com.dhruvv.recipegenerator.R
 import com.dhruvv.recipegenerator.data.model.CheckableItem
 import com.dhruvv.recipegenerator.data.model.Recipe
 import com.dhruvv.recipegenerator.domain.usecases.GetStaticIngredient
+import com.dhruvv.recipegenerator.presentation.common.Loader
 import com.dhruvv.recipegenerator.presentation.generate_recipe.composables.GenerateRecipeAppBar
 import com.dhruvv.recipegenerator.presentation.generate_recipe.composables.Ingredients
 
@@ -178,9 +175,7 @@ private fun GenerateRecipeScaffold(
 
             if (generateRecipeState.isLoading) {
                 // Show loading indicator if recipe is being generated
-                Box(modifier = Modifier.fillMaxSize()) {
-                    CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
-                }
+                Loader()
             } else if (generateRecipeState.isErrorMessage.isNotEmpty() && generateRecipeState.generatedRecipe == Recipe.INVALID_RECIPE) {
                 Toast.makeText(
                     LocalContext.current,

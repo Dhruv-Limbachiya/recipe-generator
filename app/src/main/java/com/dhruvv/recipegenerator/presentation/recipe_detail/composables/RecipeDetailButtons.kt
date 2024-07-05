@@ -45,7 +45,7 @@ fun RecipeDetailButtons(
         Button(
             onClick = navigateToHomeScreen,
             modifier = if(isSaved) Modifier.weight(1f) else  Modifier.semantics {  },
-            colors = ButtonDefaults.buttonColors().copy(containerColor = Color.Gray)
+            colors = ButtonDefaults.buttonColors().copy(containerColor = Color.Gray, contentColor = Color.White)
         ) {
             Row(
                 verticalAlignment = Alignment.CenterVertically
@@ -55,7 +55,7 @@ fun RecipeDetailButtons(
                         .size(24.dp),
                     painter = painterResource(id = R.drawable.ic_home_vector),
                     contentDescription = "Home",
-                    tint = MaterialTheme.colorScheme.onTertiary
+                    tint = Color.White
                 )
                 Spacer(modifier = Modifier.width(8.dp))
                 Text(
