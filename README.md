@@ -1,6 +1,6 @@
 <h1 align="center" id="title">Recipe Generator</h1>
 
-<p align="center"><img src="https://socialify.git.ci/Dhruv-Limbachiya/recipe-generator/image?language=1&amp;owner=1&amp;name=1&amp;stargazers=1&amp;theme=Light" alt="project-image"></p>
+
 
 <p id="description">Recipe Generator is your ultimate kitchen companion revolutionizing the way you cook and plan meals. 🍳✨ This innovative app leverages the power of artificial intelligence to generate unique and delicious recipes based on your chosen ingredients spices cooking oils and dairy products. 🥑🧂🧀</p> <p> Simply select what you have on hand and the app will create a variety of recipes tailored to your preferences. 📲👩‍🍳 Whether you’re looking for new ways to use common pantry items or want to experiment with exotic ingredients Recipe Generator has you covered. 🌶️🍜🍰</p>
 
